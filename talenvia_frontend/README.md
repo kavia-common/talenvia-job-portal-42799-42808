@@ -1,82 +1,82 @@
-# Lightweight React Template for KAVIA
+# Talenvia Frontend (React)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+Talenvia is a multi-page job searching platform UI (Job Listings, Profile, Mock Tests, Challenges, Settings, About, How it Works) built with a lightweight React setup and minimal dependencies.
 
-## Features
+## Run
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
-
-## Getting Started
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
+```bash
+npm start
 ```
 
-### Components
+Build:
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+```bash
+npm run build
+```
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+## Configuration (Environment Variables)
 
-## Learn More
+This project uses CRA-style environment variables (`REACT_APP_*`). The app works even if no backend is configured by falling back to mock data.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Common variables used by the UI:
 
-### Code Splitting
+- `REACT_APP_API_BASE` — preferred API base URL (e.g. `https://api.example.com`)
+- `REACT_APP_BACKEND_URL` — alternative base URL if `REACT_APP_API_BASE` is not set
+- `REACT_APP_WS_URL` — optional websocket base URL (not required for this UI)
+- `REACT_APP_FRONTEND_URL` — optional, used for link building (future)
+- `REACT_APP_LOG_LEVEL` — optional (defaults to `debug` in dev, `warn` in prod)
+- `REACT_APP_HEALTHCHECK_PATH` — optional (defaults to `/health`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Mock mode / graceful fallback
 
-### Analyzing the Bundle Size
+If neither `REACT_APP_API_BASE` nor `REACT_APP_BACKEND_URL` is set, Talenvia runs in **Mock mode**:
+- Job listings, profile, tests, and challenges are backed by local mock data
+- Pages include `TODO` notes for wiring real APIs later
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Feature Flags
 
-### Making a Progressive Web App
+`REACT_APP_FEATURE_FLAGS` controls optional UI sections.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Supported formats:
 
-### Advanced Configuration
+1) CSV list:
+```txt
+REACT_APP_FEATURE_FLAGS=challenges
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2) JSON object:
+```txt
+REACT_APP_FEATURE_FLAGS={"challenges":true}
+```
 
-### Deployment
+### Experiments toggle
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+`REACT_APP_EXPERIMENTS_ENABLED` can globally enable experimental features.
 
-### `npm run build` fails to minify
+Accepted truthy values: `true`, `1`, `yes`, `on`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Example:
+```txt
+REACT_APP_EXPERIMENTS_ENABLED=true
+```
+
+In this UI, **Challenges** are shown if either:
+- `REACT_APP_EXPERIMENTS_ENABLED` is truthy, OR
+- `REACT_APP_FEATURE_FLAGS` contains `challenges`
+
+## Project Structure
+
+- `src/components/` — reusable UI and layout components
+- `src/pages/` — route pages (Jobs, Profile, Tests, Challenges, Settings, About, How it Works)
+- `src/routes/` — router configuration
+- `src/config/` — env + feature flag parsing helpers
+- `src/utils/` — API client helper (graceful fallback)
+- `src/mock/` — mock data used when backend is not configured
+- `src/App.css` — theme and component styling (Royal Purple, elegant rounded UI)
+
+## TODO (Backend wiring)
+- Replace mock job search with API endpoints (search/filter/details)
+- Persist profile changes
+- Load real tests and store results
+- Persist challenge progress and add user leaderboards
+- Add auth/session handling if/when backend supports it
