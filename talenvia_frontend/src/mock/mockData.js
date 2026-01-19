@@ -92,6 +92,9 @@ export const mockTests = [
 export const mockTestData = {
   id: "frontend-basic-1",
   title: "Frontend Developer – Basic Mock Test",
+  // Metadata used for filtering/browsing (new; safe additive change).
+  categories: ["Frontend", "React", "JavaScript", "CSS"],
+  tags: ["basics", "timed", "quick"],
   duration: 20 * 60, // 20 minutes in seconds
   questions: [
     {
@@ -131,6 +134,8 @@ export const mockTestsData = [
   {
     id: "react-intermediate-1",
     title: "React – Intermediate Concepts",
+    categories: ["Frontend", "React", "JavaScript"],
+    tags: ["intermediate", "timed"],
     duration: 25 * 60,
     questions: [
       {
@@ -179,6 +184,8 @@ export const mockTestsData = [
   {
     id: "css-fundamentals-1",
     title: "CSS Fundamentals – Layout & Specificity",
+    categories: ["Frontend", "CSS"],
+    tags: ["basics", "timed", "quick"],
     duration: 15 * 60,
     questions: [
       {
@@ -216,6 +223,8 @@ export const mockTestsData = [
   {
     id: "js-basics-1",
     title: "JavaScript Basics – Types & Functions",
+    categories: ["Frontend", "JavaScript"],
+    tags: ["basics", "timed", "quick"],
     duration: 12 * 60,
     questions: [
       {
@@ -258,6 +267,8 @@ export const mockTestsData = [
   {
     id: "html-accessibility-1",
     title: "HTML & Accessibility – Semantics and ARIA",
+    categories: ["Frontend", "HTML", "Accessibility"],
+    tags: ["basics", "timed", "quick"],
     duration: 15 * 60,
     questions: [
       {
@@ -300,6 +311,8 @@ export const mockTestsData = [
   {
     id: "react-state-1",
     title: "React State – useState, useReducer, Immutability",
+    categories: ["Frontend", "React", "JavaScript"],
+    tags: ["intermediate", "timed"],
     duration: 18 * 60,
     questions: [
       {
@@ -337,6 +350,8 @@ export const mockTestsData = [
   {
     id: "react-effects-1",
     title: "React Effects – useEffect Patterns",
+    categories: ["Frontend", "React", "JavaScript"],
+    tags: ["intermediate", "timed"],
     duration: 18 * 60,
     questions: [
       {
@@ -379,6 +394,8 @@ export const mockTestsData = [
   {
     id: "ts-basics-1",
     title: "TypeScript Basics – Types, Interfaces, Narrowing",
+    categories: ["Frontend", "TypeScript", "JavaScript"],
+    tags: ["basics", "timed"],
     duration: 16 * 60,
     questions: [
       {
@@ -421,6 +438,8 @@ export const mockTestsData = [
   {
     id: "node-api-1",
     title: "Node.js APIs – REST, Status Codes, JSON",
+    categories: ["Backend", "JavaScript", "APIs", "Node.js"],
+    tags: ["basics", "timed"],
     duration: 20 * 60,
     questions: [
       {
@@ -458,6 +477,8 @@ export const mockTestsData = [
   {
     id: "sql-basics-1",
     title: "SQL Basics – SELECT, WHERE, JOIN",
+    categories: ["Backend", "SQL", "Databases"],
+    tags: ["basics", "timed"],
     duration: 18 * 60,
     questions: [
       {
@@ -495,6 +516,8 @@ export const mockTestsData = [
   {
     id: "system-design-1",
     title: "System Design – Scalability & Tradeoffs",
+    categories: ["Backend", "System Design"],
+    tags: ["intermediate", "timed"],
     duration: 22 * 60,
     questions: [
       {
@@ -547,6 +570,8 @@ export const mockTestsData = [
   {
     id: "behavioral-1",
     title: "Behavioral Interview – STAR & Communication",
+    categories: ["Behavioral"],
+    tags: ["basics", "timed", "quick"],
     duration: 14 * 60,
     questions: [
       {
@@ -599,6 +624,8 @@ export const mockTestsData = [
   {
     id: "frontend-performance-1",
     title: "Frontend Performance – Rendering, Bundles, UX",
+    categories: ["Frontend", "React", "JavaScript", "Performance"],
+    tags: ["intermediate", "timed"],
     duration: 20 * 60,
     questions: [
       {
@@ -636,6 +663,8 @@ export const mockTestsData = [
   {
     id: "debugging-1",
     title: "Debugging – Common Frontend Issues",
+    categories: ["Frontend", "JavaScript", "React"],
+    tags: ["intermediate", "timed"],
     duration: 16 * 60,
     questions: [
       {
