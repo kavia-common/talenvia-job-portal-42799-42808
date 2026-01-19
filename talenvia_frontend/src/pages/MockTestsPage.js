@@ -87,6 +87,9 @@ export function MockTestsPage() {
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
                 gap: 14,
+                maxHeight: "62vh",
+                overflow: "auto",
+                paddingRight: 6,
               }}
               aria-label="Mock tests list"
             >
