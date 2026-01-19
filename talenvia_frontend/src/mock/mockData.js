@@ -226,6 +226,8 @@ export const mockTestsData = [
         question: "Which hook is primarily used to optimize expensive calculations in React components?",
         options: ["useEffect", "useMemo", "useReducer", "useRef"],
         correctAnswer: "useMemo",
+        explanation:
+          "useMemo memoizes the result of an expensive calculation so it doesn’t have to be recomputed on every render (unless deps change).",
       },
       {
         id: 2,
@@ -237,12 +239,16 @@ export const mockTestsData = [
           "To prevent memory leaks",
         ],
         correctAnswer: "To identify elements and help React reconcile updates efficiently",
+        explanation:
+          "Keys give React a stable identity for each item, improving diffing/reconciliation and preventing incorrect item re-use on updates.",
       },
       {
         id: 3,
         question: "Which pattern helps avoid prop drilling for deeply nested components?",
         options: ["Inline styles", "Context API", "setState", "Fragments"],
         correctAnswer: "Context API",
+        explanation:
+          "Context lets you share values (like theme/auth) across many levels without passing props through every intermediate component.",
       },
       {
         id: 4,
@@ -254,12 +260,16 @@ export const mockTestsData = [
           "Using strict mode",
         ],
         correctAnswer: "Passing newly created object/function props each render without memoization",
+        explanation:
+          "New object/function references are seen as changed props, causing children to re-render unless memoized (useMemo/useCallback/React.memo).",
       },
       {
         id: 5,
         question: "When using useEffect, which dependency array value runs the effect only on mount/unmount?",
         options: ["No dependency array", "[]", "[props]", "[state]"],
         correctAnswer: "[]",
+        explanation:
+          "An empty dependency array runs the effect once after mount; the returned cleanup runs on unmount.",
       },
       {
         id: 6,
@@ -271,18 +281,24 @@ export const mockTestsData = [
           "Replacing keys in lists",
         ],
         correctAnswer: "Preventing unnecessary re-renders when props haven't changed",
+        explanation:
+          "React.memo memoizes a component render and skips re-rendering when its props are shallowly equal to the previous props.",
       },
       {
         id: 7,
         question: "Which hook is designed to store a mutable value that does not trigger re-renders when changed?",
         options: ["useRef", "useMemo", "useEffect", "useState"],
         correctAnswer: "useRef",
+        explanation:
+          "useRef stores a mutable .current value that persists across renders but updating it does not trigger a re-render.",
       },
       {
         id: 8,
         question: "What is the correct way to pass a callback to setState when the next state depends on the previous?",
         options: ["setState(state + 1)", "setState(() => state + 1)", "setState(prev => prev + 1)", "setState(prev++)"],
         correctAnswer: "setState(prev => prev + 1)",
+        explanation:
+          "Using the functional form ensures you receive the latest previous state, avoiding stale values in batched/rapid updates.",
       },
       {
         id: 9,
@@ -294,6 +310,8 @@ export const mockTestsData = [
           "It can only be used in class components",
         ],
         correctAnswer: "It helps share values without passing props through every level",
+        explanation:
+          "Context is designed for sharing values across the tree; it’s useful but doesn’t automatically replace all state management patterns.",
       },
       {
         id: 10,
@@ -305,6 +323,8 @@ export const mockTestsData = [
           "To fetch data on mount",
         ],
         correctAnswer: "To memoize a function reference passed to child components",
+        explanation:
+          "useCallback keeps a stable function reference, which can prevent unnecessary re-renders in memoized child components.",
       },
       {
         id: 11,
@@ -316,6 +336,8 @@ export const mockTestsData = [
           "A component using only refs",
         ],
         correctAnswer: "A form element whose value is controlled by React state",
+        explanation:
+          "Controlled inputs read their value from state and notify changes via onChange, making React the source of truth.",
       },
       {
         id: 12,
@@ -327,6 +349,8 @@ export const mockTestsData = [
           "Overfetching on the server",
         ],
         correctAnswer: "Memory leaks from subscriptions/timers when unmounting",
+        explanation:
+          "Cleanup removes subscriptions/listeners/timers so they don’t keep running after unmount (preventing leaks and state updates on unmounted components).",
       },
     ],
   },
@@ -343,18 +367,24 @@ export const mockTestsData = [
         question: "Which CSS property controls the spacing between flex items along the main axis?",
         options: ["align-items", "justify-content", "gap", "flex-wrap"],
         correctAnswer: "gap",
+        explanation:
+          "gap sets the spacing between items in flex/grid layouts without needing margins on individual items.",
       },
       {
         id: 2,
         question: "Which selector typically has higher specificity?",
         options: [".btn.primary", "#submit", "button", "*"],
         correctAnswer: "#submit",
+        explanation:
+          "ID selectors (#id) generally have higher specificity than class selectors, type selectors, or the universal selector.",
       },
       {
         id: 3,
         question: "In normal document flow, which property removes an element from the flow?",
         options: ["margin", "display: inline", "position: absolute", "padding"],
         correctAnswer: "position: absolute",
+        explanation:
+          "position: absolute removes the element from normal flow, so it no longer affects the layout of surrounding elements.",
       },
       {
         id: 4,
@@ -366,30 +396,40 @@ export const mockTestsData = [
           "It disables margin collapsing",
         ],
         correctAnswer: "It includes padding and border in the element’s total width/height",
+        explanation:
+          "With border-box, width/height include padding and border, making layouts easier to reason about and preventing overflow surprises.",
       },
       {
         id: 5,
         question: "Which display value makes an element a flex container?",
         options: ["display: block", "display: inline", "display: flex", "display: grid"],
         correctAnswer: "display: flex",
+        explanation:
+          "display: flex turns an element into a flex container and its direct children into flex items.",
       },
       {
         id: 6,
         question: "Which property aligns items along the cross axis in a flex container?",
         options: ["justify-content", "align-items", "gap", "flex-direction"],
         correctAnswer: "align-items",
+        explanation:
+          "align-items controls alignment along the cross axis (perpendicular to the main axis) for items in a flex container.",
       },
       {
         id: 7,
         question: "In CSS Grid, which property defines the columns?",
         options: ["grid-template-columns", "grid-column-gap", "grid-auto-flow", "grid-row"],
         correctAnswer: "grid-template-columns",
+        explanation:
+          "grid-template-columns defines the number and sizes of columns in a grid (e.g., 1fr 2fr 200px).",
       },
       {
         id: 8,
         question: "Which unit is relative to the element’s own font size?",
         options: ["rem", "em", "px", "vh"],
         correctAnswer: "em",
+        explanation:
+          "em is relative to the font-size of the current element (or its parent for font-size itself), unlike rem which uses the root.",
       },
       {
         id: 9,
@@ -401,12 +441,16 @@ export const mockTestsData = [
           "Disables scrolling",
         ],
         correctAnswer: "Toggles between relative and fixed based on scroll position",
+        explanation:
+          "sticky behaves like relative until a scroll threshold is reached, then it “sticks” like fixed within its container.",
       },
       {
         id: 10,
         question: "Which rule will generally override the others due to specificity?",
         options: ["p { }", ".card p { }", "#main p { }", "* { }"],
         correctAnswer: "#main p { }",
+        explanation:
+          "An ID-based selector (#main p) has higher specificity than class or type selectors, so it typically wins (absent !important).",
       },
       {
         id: 11,
@@ -418,12 +462,16 @@ export const mockTestsData = [
           "Disables hover styles",
         ],
         correctAnswer: "Hides content that spills outside the element’s box",
+        explanation:
+          "overflow: hidden clips overflowing content so it isn’t visible outside the element’s bounds (and typically prevents scrollbars).",
       },
       {
         id: 12,
         question: "Which shorthand sets all four margins in one declaration?",
         options: ["margin: top right bottom left", "margin-all", "spacing", "box-margin"],
         correctAnswer: "margin: top right bottom left",
+        explanation:
+          "The 4-value margin shorthand sets top, right, bottom, left in that order: margin: T R B L.",
       },
     ],
   },
@@ -440,12 +488,16 @@ export const mockTestsData = [
         question: "What is the result of typeof null in JavaScript?",
         options: ['"null"', '"object"', '"undefined"', '"number"'],
         correctAnswer: '"object"',
+        explanation:
+          "It’s a long-standing JavaScript quirk: null is considered an object by typeof, even though it represents “no value”.",
       },
       {
         id: 2,
         question: "Which of these creates a new array containing items that pass a test function?",
         options: ["map()", "forEach()", "filter()", "reduce()"],
         correctAnswer: "filter()",
+        explanation:
+          "filter() returns a new array with only the elements for which the callback returns true.",
       },
       {
         id: 3,
@@ -457,6 +509,8 @@ export const mockTestsData = [
           "A method to sort arrays",
         ],
         correctAnswer: "A function bundled with references to its surrounding state (lexical environment)",
+        explanation:
+          "Closures let a function “remember” variables from the scope where it was created, even after that scope has finished executing.",
       },
       {
         id: 4,
@@ -468,12 +522,16 @@ export const mockTestsData = [
           "It is identical to =",
         ],
         correctAnswer: "It compares both value and type without coercion",
+        explanation:
+          "=== is strict equality: it compares both type and value (unlike == which can coerce types).",
       },
       {
         id: 5,
         question: "Which keyword declares a block-scoped variable?",
         options: ["var", "let", "define", "static"],
         correctAnswer: "let",
+        explanation:
+          "let (and const) are block-scoped, while var is function-scoped and can lead to hoisting surprises.",
       },
       {
         id: 6,
@@ -485,24 +543,32 @@ export const mockTestsData = [
           "Sorts the array numerically by default",
         ],
         correctAnswer: "Executes a reducer function to produce a single accumulated value",
+        explanation:
+          "reduce() accumulates values across the array into a single result (sum, object map, grouped data, etc.).",
       },
       {
         id: 7,
         question: "Which of these is NOT a primitive type in JavaScript?",
         options: ["string", "number", "object", "boolean"],
         correctAnswer: "object",
+        explanation:
+          "Objects are non-primitive reference types; primitives include string, number, boolean, null, undefined, symbol, and bigint.",
       },
       {
         id: 8,
         question: "What does `this` typically refer to inside a regular function (non-arrow) when called as obj.fn()?",
         options: ["The global object always", "The function itself", "The object `obj`", "Undefined always"],
         correctAnswer: "The object `obj`",
+        explanation:
+          "In a normal method call (obj.fn()), this is bound to the object before the dot (obj).",
       },
       {
         id: 9,
         question: "How do you create a shallow copy of an object?",
         options: ["Object.copy(obj)", "{ ...obj }", "obj.clone()", "JSON.stringify(obj)"],
         correctAnswer: "{ ...obj }",
+        explanation:
+          "The spread operator copies top-level properties into a new object; nested objects are still shared (shallow copy).",
       },
       {
         id: 10,
@@ -514,6 +580,8 @@ export const mockTestsData = [
           "To convert strings to numbers",
         ],
         correctAnswer: "To handle exceptions and keep execution from crashing",
+        explanation:
+          "try/catch lets you handle thrown errors so you can recover or show a helpful message instead of crashing.",
       },
       {
         id: 11,
@@ -525,6 +593,8 @@ export const mockTestsData = [
           "It must be named",
         ],
         correctAnswer: "It does not have its own `this` binding and captures from surrounding scope",
+        explanation:
+          "Arrow functions inherit this from the enclosing scope, which makes them useful for callbacks but different from methods.",
       },
       {
         id: 12,
@@ -536,6 +606,8 @@ export const mockTestsData = [
           "Turns promises into callbacks",
         ],
         correctAnswer: "Resolves when all promises resolve (or rejects when one rejects)",
+        explanation:
+          "Promise.all waits for all promises to resolve; if any rejects, the whole result rejects immediately with that error.",
       },
     ],
   },
@@ -552,6 +624,8 @@ export const mockTestsData = [
         question: "Which HTML element is most appropriate for the main navigation links of a page?",
         options: ["<div>", "<nav>", "<section>", "<main>"],
         correctAnswer: "<nav>",
+        explanation:
+          "<nav> is semantic markup specifically intended for a section of navigation links, improving structure and accessibility.",
       },
       {
         id: 2,
@@ -563,6 +637,8 @@ export const mockTestsData = [
           "To make the image clickable",
         ],
         correctAnswer: "To provide alternative text for screen readers and when the image fails to load",
+        explanation:
+          "alt provides a text alternative for non-visual users and is shown if the image can’t load; it’s essential for accessibility.",
       },
       {
         id: 3,
@@ -574,18 +650,24 @@ export const mockTestsData = [
           "Only for forms",
         ],
         correctAnswer: "Only when semantic HTML cannot express the needed behavior/meaning",
+        explanation:
+          "ARIA should supplement, not replace, semantic HTML—use it when native elements/attributes can’t represent the needed semantics.",
       },
       {
         id: 4,
         question: "Which attribute associates a <label> with a form control?",
         options: ["name", "for/htmlFor", "role", "tabIndex"],
         correctAnswer: "for/htmlFor",
+        explanation:
+          "The label’s for/htmlFor must match the input’s id so assistive tech can associate the label text with the control.",
       },
       {
         id: 5,
         question: "Which element should be used for the primary page heading?",
         options: ["<h6>", "<h1>", "<p>", "<strong>"],
         correctAnswer: "<h1>",
+        explanation:
+          "<h1> represents the top-level heading and helps users (and assistive tech) understand the page’s main topic.",
       },
       {
         id: 6,
@@ -597,24 +679,32 @@ export const mockTestsData = [
           "A replacement for alt text on images always",
         ],
         correctAnswer: "An accessible name for elements that lack visible text",
+        explanation:
+          "aria-label gives an element an accessible name when there isn’t visible text (e.g., icon-only buttons).",
       },
       {
         id: 7,
         question: "Which input attribute hints to browsers what type of data is expected (improves mobile keyboards too)?",
         options: ["role", "type", "aria-live", "tabIndex"],
         correctAnswer: "type",
+        explanation:
+          "type (email, number, tel, etc.) signals expected input format and can change validation and mobile keyboard layouts.",
       },
       {
         id: 8,
         question: "Which attribute makes an element focusable via keyboard in the natural tab order?",
         options: ["tabIndex=0", "tabIndex=-1", "role=listbox", "aria-hidden=true"],
         correctAnswer: "tabIndex=0",
+        explanation:
+          "tabIndex=0 places the element into the normal tab order so it can be reached with Tab key navigation.",
       },
       {
         id: 9,
         question: "For decorative images, a common accessibility pattern is:",
         options: ["Use alt='decorative'", "Omit src", 'Use empty alt=""', "Use role='img' always"],
         correctAnswer: 'Use empty alt=""',
+        explanation:
+          "An empty alt tells screen readers to ignore purely decorative images so users aren’t distracted by irrelevant descriptions.",
       },
       {
         id: 10,
@@ -626,12 +716,16 @@ export const mockTestsData = [
           "The element is clickable",
         ],
         correctAnswer: "Updates should be announced when convenient without interrupting",
+        explanation:
+          "polite announcements wait for the user to pause before reading updates, which is better for non-urgent status messages.",
       },
       {
         id: 11,
         question: "Which HTML element is appropriate for a standalone self-contained piece of content (e.g., a blog post card)?",
         options: ["<article>", "<span>", "<b>", "<meta>"],
         correctAnswer: "<article>",
+        explanation:
+          "<article> is meant for self-contained content that could stand on its own (like a post, comment, or card).",
       },
       {
         id: 12,
@@ -643,6 +737,8 @@ export const mockTestsData = [
           "It automatically adds animations",
         ],
         correctAnswer: "It provides meaning/structure for assistive technologies by default",
+        explanation:
+          "Semantic elements provide built-in roles/meaning, improving navigation for assistive tech and reducing the need for extra ARIA.",
       },
     ],
   },
@@ -664,24 +760,32 @@ export const mockTestsData = [
           "Because it improves CSS performance",
         ],
         correctAnswer: "Because immutable updates help React detect changes and avoid subtle bugs",
+        explanation:
+          "React relies on reference changes to detect updates; immutable patterns avoid in-place mutations that can prevent re-renders and cause bugs.",
       },
       {
         id: 2,
         question: "Which hook is often a better fit than useState for complex state transitions?",
         options: ["useMemo", "useReducer", "useRef", "useLayoutEffect"],
         correctAnswer: "useReducer",
+        explanation:
+          "useReducer centralizes transition logic and is easier to reason about when multiple actions and state fields interact.",
       },
       {
         id: 3,
         question: "Given setCount(c => c + 1), what does the function argument represent?",
         options: ["The next value", "The previous state value", "A DOM event", "A React element"],
         correctAnswer: "The previous state value",
+        explanation:
+          "The updater function receives the latest previous state value, making it safe for queued/batched updates.",
       },
       {
         id: 4,
         question: "Which update pattern avoids mutating an array in state?",
         options: ["arr.push(x)", "arr.splice(0,1)", "[...arr, x]", "arr[0] = x"],
         correctAnswer: "[...arr, x]",
+        explanation:
+          "Using spread creates a new array reference, which is the recommended immutable update pattern for arrays in React state.",
       },
       {
         id: 5,
@@ -693,6 +797,8 @@ export const mockTestsData = [
           "Using immutability",
         ],
         correctAnswer: "Using the current state variable directly (stale state) in rapid updates",
+        explanation:
+          "If updates are batched, reading from the current state variable can be stale; use functional updates to avoid this.",
       },
       {
         id: 6,
@@ -704,6 +810,8 @@ export const mockTestsData = [
           "A CSS selector",
         ],
         correctAnswer: "An object describing what happened (often with a type and payload)",
+        explanation:
+          "Actions describe events (type/payload) and let the reducer decide how to compute the next state from the current state.",
       },
       {
         id: 7,
@@ -715,12 +823,16 @@ export const mockTestsData = [
           "To access the DOM directly",
         ],
         correctAnswer: "To manage multiple related state values with clearer transitions",
+        explanation:
+          "Reducers make complex updates explicit and predictable, especially when many fields change together based on an action.",
       },
       {
         id: 8,
         question: "Which operation creates a new object while overriding a field?",
         options: ["obj.field = x", "Object.assign(obj, { field: x })", "{ ...obj, field: x }", "delete obj.field"],
         correctAnswer: "{ ...obj, field: x }",
+        explanation:
+          "Object spread creates a new object and overrides the specified field, preserving immutability.",
       },
       {
         id: 9,
@@ -732,6 +844,8 @@ export const mockTestsData = [
           "Use document.querySelector",
         ],
         correctAnswer: "Create new objects/arrays along the path you change",
+        explanation:
+          "You create new references at each nesting level that changes so React can detect the update and you avoid mutating old state.",
       },
       {
         id: 10,
@@ -743,6 +857,8 @@ export const mockTestsData = [
           "Caching API calls",
         ],
         correctAnswer: "Combining multiple state updates into a single render for efficiency",
+        explanation:
+          "Batching reduces rendering overhead by applying multiple state updates together before producing the next render.",
       },
       {
         id: 11,
@@ -754,12 +870,16 @@ export const mockTestsData = [
           "It prevents network errors",
         ],
         correctAnswer: "Derived data can be computed from existing state/props, reducing bugs and duplication",
+        explanation:
+          "Storing only source-of-truth state avoids duplicated values that can drift out of sync and cause subtle UI inconsistencies.",
       },
       {
         id: 12,
         question: "Which of these is typically NOT suitable for React state?",
         options: ["Form input value", "A timer ID stored in a ref", "UI toggle flags", "Fetched data"],
         correctAnswer: "A timer ID stored in a ref",
+        explanation:
+          "Refs are better for mutable values that shouldn’t trigger re-renders (like timer IDs). State is for values that affect rendering.",
       },
     ],
   },
@@ -781,18 +901,24 @@ export const mockTestsData = [
           "To change the dependency array",
         ],
         correctAnswer: "To unsubscribe/clear timers and prevent leaks when the component unmounts",
+        explanation:
+          "Cleanup is where you remove subscriptions, event listeners, or timers so they don’t keep running after the component unmounts.",
       },
       {
         id: 2,
         question: "If you omit the dependency array in useEffect, the effect runs:",
         options: ["Only once", "On every render", "Only on unmount", "Only when state changes"],
         correctAnswer: "On every render",
+        explanation:
+          "Without a dependency array, React runs the effect after every render, which can be expensive or cause loops if it sets state.",
       },
       {
         id: 3,
         question: "Which dependency array will run the effect when `userId` changes?",
         options: ["[]", "[userId]", "[props]", "[setUserId]"],
         correctAnswer: "[userId]",
+        explanation:
+          "Including userId in the dependency array tells React to re-run the effect whenever userId changes.",
       },
       {
         id: 4,
@@ -804,6 +930,8 @@ export const mockTestsData = [
           "Duplicate HTML tags",
         ],
         correctAnswer: "Stale closures leading to incorrect logic/data",
+        explanation:
+          "Missing dependencies can make the effect capture outdated variables, leading to bugs where the effect uses stale values.",
       },
       {
         id: 5,
@@ -815,6 +943,8 @@ export const mockTestsData = [
           "Fetch in CSS",
         ],
         correctAnswer: "Trigger fetch in useEffect and store results in state",
+        explanation:
+          "Fetching in useEffect aligns with side-effect timing and lets you store results in state once the async request completes.",
       },
       {
         id: 6,
@@ -826,12 +956,16 @@ export const mockTestsData = [
           "Because it breaks JSX parsing",
         ],
         correctAnswer: "Because the callback must return nothing or a cleanup function, not a Promise",
+        explanation:
+          "An async function returns a Promise, but React expects the effect callback to return either nothing or a cleanup function.",
       },
       {
         id: 7,
         question: "If you need to run an effect only once on mount, you typically use:",
         options: ["No dependency array", "[]", "[props]", "[state]"],
         correctAnswer: "[]",
+        explanation:
+          "An empty array means “no changing dependencies,” so the effect runs once after mount (plus cleanup on unmount).",
       },
       {
         id: 8,
@@ -843,6 +977,8 @@ export const mockTestsData = [
           "A server-side rendering mismatch",
         ],
         correctAnswer: "An effect reading outdated variables captured from an earlier render",
+        explanation:
+          "Closures capture values at render time; if the effect doesn’t re-run when values change, it can read outdated data.",
       },
       {
         id: 9,
@@ -854,6 +990,8 @@ export const mockTestsData = [
           "Only use inline HTML handlers",
         ],
         correctAnswer: "Add listener in useEffect and remove it in cleanup",
+        explanation:
+          "Register listeners in useEffect and remove them in cleanup to prevent leaks and duplicate handlers across re-renders.",
       },
       {
         id: 10,
@@ -865,6 +1003,8 @@ export const mockTestsData = [
           "It disables cleanup",
         ],
         correctAnswer: "Functions may be re-created each render unless memoized",
+        explanation:
+          "A new function reference is considered a changed dependency; useCallback can stabilize the function identity when needed.",
       },
       {
         id: 11,
@@ -876,6 +1016,8 @@ export const mockTestsData = [
           "Turns them into async functions",
         ],
         correctAnswer: "May run them twice (mount/unmount/mount) to help find side-effect issues",
+        explanation:
+          "StrictMode intentionally double-invokes some lifecycles/effects in dev to surface unsafe side effects and cleanup issues.",
       },
       {
         id: 12,
@@ -887,6 +1029,8 @@ export const mockTestsData = [
           "Only use class components",
         ],
         correctAnswer: "Use a mounted flag / abort controller and check before setting state",
+        explanation:
+          "You should cancel/abort the async work or guard state updates so you don’t update state after unmount (avoiding warnings/leaks).",
       },
     ],
   },
@@ -903,6 +1047,8 @@ export const mockTestsData = [
         question: "Which TypeScript type represents an array of strings?",
         options: ["string[]", "array<string>", "strings()", "StringArray"],
         correctAnswer: "string[]",
+        explanation:
+          "string[] is the standard syntax for an array of strings in TypeScript (Array<string> is also valid but not listed here).",
       },
       {
         id: 2,
@@ -914,6 +1060,8 @@ export const mockTestsData = [
           "To compile CSS",
         ],
         correctAnswer: "To add static typing and tooling on top of JavaScript",
+        explanation:
+          "TypeScript adds static types and better tooling (autocomplete, refactoring, safety checks) while compiling down to JavaScript.",
       },
       {
         id: 3,
@@ -925,18 +1073,24 @@ export const mockTestsData = [
           "Generate CSS variables",
         ],
         correctAnswer: "Infer more specific types in a given branch of code",
+        explanation:
+          "Narrowing lets TypeScript refine a union type to a more specific type based on runtime checks (e.g., typeof, in, instanceof).",
       },
       {
         id: 4,
         question: "Which keyword declares an interface?",
         options: ["interface", "type", "class", "enum"],
         correctAnswer: "interface",
+        explanation:
+          "interface defines the shape of an object and is often used for public API contracts and object-like structures.",
       },
       {
         id: 5,
         question: "Which type represents a value that can be one of several string literals?",
         options: ["union type", "any", "never", "unknown"],
         correctAnswer: "union type",
+        explanation:
+          "Union types allow a value to be one of multiple options (e.g., type Size = 'sm' | 'md' | 'lg').",
       },
       {
         id: 6,
@@ -948,6 +1102,8 @@ export const mockTestsData = [
           "`unknown` disables type checking completely",
         ],
         correctAnswer: "`unknown` is safer because you must narrow it before use",
+        explanation:
+          "`unknown` forces you to check the type before using it, while `any` opts out of type safety and allows unsafe operations.",
       },
       {
         id: 7,
@@ -959,18 +1115,24 @@ export const mockTestsData = [
           "A value that is optional",
         ],
         correctAnswer: "A function that never returns (throws or infinite loop)",
+        explanation:
+          "never represents unreachable code paths or functions that don’t complete normally (e.g., throw, infinite loop).",
       },
       {
         id: 8,
         question: "Which operator is commonly used for non-null assertion in TypeScript?",
         options: ["??", "!", "?.", ":"],
         correctAnswer: "!",
+        explanation:
+          "The non-null assertion operator (!) tells TypeScript “I’m sure this isn’t null/undefined here,” bypassing checks.",
       },
       {
         id: 9,
         question: "Which is a common way to narrow a union type at runtime?",
         options: ["JSON.parse", "typeof / instanceof checks", "CSS selectors", "import statements"],
         correctAnswer: "typeof / instanceof checks",
+        explanation:
+          "Runtime checks like typeof and instanceof let TypeScript infer a narrower type within the corresponding code branch.",
       },
       {
         id: 10,
@@ -982,12 +1144,16 @@ export const mockTestsData = [
           "Deletes the property at runtime",
         ],
         correctAnswer: "Prevents the property from being changed after initialization",
+        explanation:
+          "readonly marks a property as immutable at compile time, preventing reassignment (it doesn’t enforce runtime immutability).",
       },
       {
         id: 11,
         question: "Which syntax marks an interface property as optional?",
         options: ["prop?: string", "prop!: string", "prop: string | undefined only", "prop = string"],
         correctAnswer: "prop?: string",
+        explanation:
+          "The ? indicates the property may be omitted; TypeScript treats it as potentially undefined unless you check it.",
       },
       {
         id: 12,
@@ -999,6 +1165,8 @@ export const mockTestsData = [
           "To style JSX",
         ],
         correctAnswer: "To create reusable components/functions that work with multiple types",
+        explanation:
+          "Generics let you write type-safe reusable code (e.g., function identity<T>(x: T): T { return x; }).",
       },
     ],
   },
@@ -1015,18 +1183,24 @@ export const mockTestsData = [
         question: "Which HTTP method is typically used to update an existing resource?",
         options: ["GET", "POST", "PUT/PATCH", "OPTIONS"],
         correctAnswer: "PUT/PATCH",
+        explanation:
+          "PUT/PATCH are used to update resources (PUT replaces the whole resource; PATCH applies a partial update).",
       },
       {
         id: 2,
         question: "What status code is commonly returned for a successful GET request?",
         options: ["200", "201", "204", "404"],
         correctAnswer: "200",
+        explanation:
+          "200 OK indicates the request succeeded and the response contains the requested representation (common for GET).",
       },
       {
         id: 3,
         question: "Which header indicates the media type of the response body?",
         options: ["Authorization", "Content-Type", "Accept-Encoding", "Cache-Control"],
         correctAnswer: "Content-Type",
+        explanation:
+          "Content-Type describes the MIME type of the body being sent (e.g., application/json).",
       },
       {
         id: 4,
@@ -1038,18 +1212,24 @@ export const mockTestsData = [
           "Only validate in the UI",
         ],
         correctAnswer: "Validate on the server and return helpful error messages",
+        explanation:
+          "Server validation is essential because clients can’t be trusted; clear errors help clients fix requests quickly.",
       },
       {
         id: 5,
         question: "Which status code indicates the client is not authorized (authentication required/failed)?",
         options: ["400", "401", "403", "500"],
         correctAnswer: "401",
+        explanation:
+          "401 Unauthorized means authentication is required or failed (often with a WWW-Authenticate header).",
       },
       {
         id: 6,
         question: "Which status code indicates the client is forbidden even if authenticated?",
         options: ["401", "403", "404", "409"],
         correctAnswer: "403",
+        explanation:
+          "403 Forbidden indicates the user is authenticated but does not have permission to access the resource.",
       },
       {
         id: 7,
@@ -1061,30 +1241,40 @@ export const mockTestsData = [
           "Storing session in HTML",
         ],
         correctAnswer: "Stateless interactions and resources identified by URLs",
+        explanation:
+          "REST focuses on stateless requests and resource-oriented design where resources are addressed via URLs and standard HTTP methods.",
       },
       {
         id: 8,
         question: "In JSON, which is valid?",
         options: ['{name: "A"}', '{"name":"A"}', "{'name':'A'}", '{"name":A}'],
         correctAnswer: '{"name":"A"}',
+        explanation:
+          "Valid JSON requires double quotes around keys and string values (single quotes and unquoted keys are invalid).",
       },
       {
         id: 9,
         question: "Which header is commonly used to send a bearer token?",
         options: ["Content-Type", "Authorization", "Accept", "Host"],
         correctAnswer: "Authorization",
+        explanation:
+          "Bearer tokens are typically sent as: Authorization: Bearer <token>.",
       },
       {
         id: 10,
         question: "What is a common strategy to version a REST API?",
         options: ["Put version in CSS", "Use a URL prefix like /v1", "Use only cookies", "Use HTML meta tags"],
         correctAnswer: "Use a URL prefix like /v1",
+        explanation:
+          "A URL version prefix (e.g., /v1) is a common and explicit way to evolve APIs without breaking clients.",
       },
       {
         id: 11,
         question: "Which status code often indicates a successful request with no response body?",
         options: ["200", "201", "204", "422"],
         correctAnswer: "204",
+        explanation:
+          "204 No Content indicates success and intentionally returns no response body (common for delete/update operations).",
       },
       {
         id: 12,
@@ -1096,6 +1286,8 @@ export const mockTestsData = [
           "Stores data permanently",
         ],
         correctAnswer: "Runs between request and response to handle tasks like auth/logging/parsing",
+        explanation:
+          "Middleware functions can inspect/modify requests and responses and are used for concerns like auth, parsing JSON, and logging.",
       },
     ],
   },
@@ -1112,6 +1304,8 @@ export const mockTestsData = [
         question: "Which SQL keyword is used to filter rows?",
         options: ["FILTER", "WHERE", "GROUP", "LIMIT"],
         correctAnswer: "WHERE",
+        explanation:
+          "WHERE filters rows before any grouping/aggregation, returning only rows that match the condition.",
       },
       {
         id: 2,
@@ -1123,30 +1317,40 @@ export const mockTestsData = [
           "Only non-matching rows",
         ],
         correctAnswer: "Only matching rows between two tables",
+        explanation:
+          "INNER JOIN returns only rows where the join condition matches in both tables (the intersection).",
       },
       {
         id: 3,
         question: "Which clause limits the number of rows returned?",
         options: ["LIMIT", "TOP", "COUNT", "ORDER"],
         correctAnswer: "LIMIT",
+        explanation:
+          "LIMIT constrains how many rows are returned (syntax varies slightly by database; e.g., TOP in SQL Server).",
       },
       {
         id: 4,
         question: "Which statement is used to sort results?",
         options: ["ORDER BY", "SORT BY", "GROUP BY", "RANGE BY"],
         correctAnswer: "ORDER BY",
+        explanation:
+          "ORDER BY sorts the result set by one or more columns (ascending by default, or DESC).",
       },
       {
         id: 5,
         question: "Which function counts rows?",
         options: ["SUM()", "COUNT()", "AVG()", "JOIN()"],
         correctAnswer: "COUNT()",
+        explanation:
+          "COUNT() returns the number of rows (or non-null values if counting a specific column).",
       },
       {
         id: 6,
         question: "Which SQL clause groups rows for aggregation?",
         options: ["GROUP BY", "ORDER BY", "HAVING", "UNION"],
         correctAnswer: "GROUP BY",
+        explanation:
+          "GROUP BY groups rows with the same values so aggregate functions (COUNT, SUM, AVG) can compute per-group results.",
       },
       {
         id: 7,
@@ -1158,30 +1362,40 @@ export const mockTestsData = [
           "Limits results to top N",
         ],
         correctAnswer: "Filters groups after aggregation",
+        explanation:
+          "HAVING filters aggregated groups (e.g., only groups where COUNT(*) > 5), while WHERE filters individual rows.",
       },
       {
         id: 8,
         question: "Which JOIN returns all rows from the left table and matches from the right table when available?",
         options: ["RIGHT JOIN", "LEFT JOIN", "INNER JOIN", "CROSS JOIN"],
         correctAnswer: "LEFT JOIN",
+        explanation:
+          "LEFT JOIN keeps all rows from the left table and fills right-side columns with NULL when there’s no match.",
       },
       {
         id: 9,
         question: "What does DISTINCT do?",
         options: ["Sorts data", "Removes duplicate rows from the result set", "Adds a column", "Creates an index"],
         correctAnswer: "Removes duplicate rows from the result set",
+        explanation:
+          "DISTINCT eliminates duplicate rows in the output based on the selected columns.",
       },
       {
         id: 10,
         question: "Which statement combines results of two SELECT queries (removing duplicates by default)?",
         options: ["MERGE", "UNION", "JOIN", "GROUP"],
         correctAnswer: "UNION",
+        explanation:
+          "UNION combines rows from two queries and removes duplicates by default (UNION ALL keeps duplicates).",
       },
       {
         id: 11,
         question: "Which keyword is used to insert data?",
         options: ["ADD", "INSERT INTO", "APPEND", "PUT"],
         correctAnswer: "INSERT INTO",
+        explanation:
+          "INSERT INTO adds new rows to a table (often with VALUES (...) or an INSERT ... SELECT pattern).",
       },
       {
         id: 12,
@@ -1193,6 +1407,8 @@ export const mockTestsData = [
           "Tables cannot be joined",
         ],
         correctAnswer: "Each row has a unique identifier (not null and unique)",
+        explanation:
+          "A primary key uniquely identifies each row and enforces uniqueness and non-null constraints (improves integrity and indexing).",
       },
     ],
   },
@@ -1214,6 +1430,8 @@ export const mockTestsData = [
           "To replace authentication",
         ],
         correctAnswer: "To reduce latency and load on downstream systems",
+        explanation:
+          "Caching serves frequent reads from faster storage (memory/edge), reducing response times and lowering load on databases/services.",
       },
       {
         id: 2,
@@ -1225,6 +1443,8 @@ export const mockTestsData = [
           "More SQL joins",
         ],
         correctAnswer: "Potentially stale data and invalidation complexity",
+        explanation:
+          "Cached data can become stale; keeping it correct requires invalidation/TTL strategies that add complexity.",
       },
       {
         id: 3,
@@ -1236,6 +1456,8 @@ export const mockTestsData = [
           "Decreasing request throughput",
         ],
         correctAnswer: "Adding more instances/servers to handle load",
+        explanation:
+          "Horizontal scaling adds more machines/instances so traffic can be distributed, instead of making one machine bigger.",
       },
       {
         id: 4,
@@ -1247,6 +1469,8 @@ export const mockTestsData = [
           "To encrypt database columns",
         ],
         correctAnswer: "To distribute traffic across multiple instances",
+        explanation:
+          "Load balancers spread requests across instances to improve availability, scale, and failover handling.",
       },
       {
         id: 5,
@@ -1258,6 +1482,8 @@ export const mockTestsData = [
           "To eliminate HTTP",
         ],
         correctAnswer: "To decouple services and handle background work asynchronously",
+        explanation:
+          "Queues buffer work and decouple producers/consumers, smoothing spikes and enabling async/background processing.",
       },
       {
         id: 6,
@@ -1269,6 +1495,8 @@ export const mockTestsData = [
           "A caching strategy",
         ],
         correctAnswer: "A component whose failure can take down the entire system",
+        explanation:
+          "If one component failing causes the whole system to fail, it’s a single point of failure; redundancy mitigates it.",
       },
       {
         id: 7,
@@ -1280,6 +1508,8 @@ export const mockTestsData = [
           "To remove indexes",
         ],
         correctAnswer: "To split data across multiple machines for scalability",
+        explanation:
+          "Sharding partitions data so multiple database machines share storage and load, enabling scale beyond a single node.",
       },
       {
         id: 8,
@@ -1291,6 +1521,8 @@ export const mockTestsData = [
           "Only SQL databases support it",
         ],
         correctAnswer: "The system may temporarily return stale data but converges to consistency over time",
+        explanation:
+          "In distributed systems, replicas may lag briefly, but the system converges so all replicas eventually reflect the same value.",
       },
       {
         id: 9,
@@ -1302,6 +1534,8 @@ export const mockTestsData = [
           "To store passwords",
         ],
         correctAnswer: "To serve static content from edge locations, reducing latency",
+        explanation:
+          "CDNs cache static files at edge locations closer to users, improving load time and reducing origin server traffic.",
       },
       {
         id: 10,
@@ -1313,12 +1547,16 @@ export const mockTestsData = [
           "They only work on-premise",
         ],
         correctAnswer: "They are easier to scale horizontally behind a load balancer",
+        explanation:
+          "Stateless instances can be added/removed freely because any request can be handled by any instance (no local session dependency).",
       },
       {
         id: 11,
         question: "Which choice reduces the blast radius of failures?",
         options: ["One giant monolith always", "Circuit breakers and timeouts", "No monitoring", "Disable retries everywhere"],
         correctAnswer: "Circuit breakers and timeouts",
+        explanation:
+          "Circuit breakers/timeouts stop cascading failures by failing fast when dependencies are unhealthy, limiting system-wide impact.",
       },
       {
         id: 12,
@@ -1330,6 +1568,8 @@ export const mockTestsData = [
           "Incrementing a counter",
         ],
         correctAnswer: "GET fetching a resource",
+        explanation:
+          "Idempotent operations can be repeated without changing the result; GET requests don’t modify server state.",
       },
     ],
   },
@@ -1351,6 +1591,8 @@ export const mockTestsData = [
           "Study, Train, Answer, Review",
         ],
         correctAnswer: "Situation, Task, Action, Result",
+        explanation:
+          "STAR is a structured way to tell a story: set context (Situation), goal (Task), what you did (Action), and outcome (Result).",
       },
       {
         id: 2,
@@ -1362,6 +1604,8 @@ export const mockTestsData = [
           "Only one sentence",
         ],
         correctAnswer: "Specific and structured with clear outcomes",
+        explanation:
+          "Interviewers want concrete examples; structure and outcomes make your impact easy to understand and evaluate.",
       },
       {
         id: 3,
@@ -1373,6 +1617,8 @@ export const mockTestsData = [
           "Only listing mistakes",
         ],
         correctAnswer: "Your process, communication, and what you learned",
+        explanation:
+          "Focus on collaboration and resolution: how you communicated, what you did to solve it, and what you learned for the future.",
       },
       {
         id: 4,
@@ -1384,6 +1630,8 @@ export const mockTestsData = [
           "A joke",
         ],
         correctAnswer: "A clear result/impact and what you’d do next time",
+        explanation:
+          "Closing with measurable impact and reflection demonstrates effectiveness and growth mindset.",
       },
       {
         id: 5,
@@ -1395,6 +1643,8 @@ export const mockTestsData = [
           "Only your GPA",
         ],
         correctAnswer: "A concise narrative aligned to the role: past → present → why this job",
+        explanation:
+          "A focused narrative connects your background to the role and shows clear motivation without unnecessary detail.",
       },
       {
         id: 6,
@@ -1406,6 +1656,8 @@ export const mockTestsData = [
           "Keep it extremely vague",
         ],
         correctAnswer: "Share a real example, take ownership, and highlight what you changed/learned",
+        explanation:
+          "Owning mistakes and describing improvements shows maturity, accountability, and learning ability.",
       },
       {
         id: 7,
@@ -1417,6 +1669,8 @@ export const mockTestsData = [
           "Focus only on tools used",
         ],
         correctAnswer: "Mention measurable outcomes (time saved, revenue, users, reliability) when possible",
+        explanation:
+          "Metrics make results tangible and credible, helping the interviewer understand the scale and value of your contribution.",
       },
       {
         id: 8,
@@ -1428,6 +1682,8 @@ export const mockTestsData = [
           "Stay silent",
         ],
         correctAnswer: "Clarify assumptions, explain your approach, and propose next steps",
+        explanation:
+          "Being transparent and reasoning clearly is better than guessing; it shows problem-solving skills and professionalism.",
       },
       {
         id: 9,
@@ -1439,6 +1695,8 @@ export const mockTestsData = [
           "End the interview",
         ],
         correctAnswer: "Pause, acknowledge, and continue concisely or ask if you should adjust",
+        explanation:
+          "Acknowledging and adapting shows strong communication; it keeps the conversation collaborative rather than defensive.",
       },
       {
         id: 10,
@@ -1450,6 +1708,8 @@ export const mockTestsData = [
           "Only that it's 'a great company'",
         ],
         correctAnswer: "Company mission + product + team/role fit + your growth goals",
+        explanation:
+          "A strong answer ties what the company does to what you care about and shows why you’re a good match for the role.",
       },
       {
         id: 11,
@@ -1461,6 +1721,8 @@ export const mockTestsData = [
           "Only that you managed people",
         ],
         correctAnswer: "Influence through communication, initiative, and ownership",
+        explanation:
+          "Leadership is about influence and ownership—taking initiative, aligning others, and driving outcomes even without formal authority.",
       },
       {
         id: 12,
@@ -1472,6 +1734,8 @@ export const mockTestsData = [
           "“How soon can I be CEO?”",
         ],
         correctAnswer: "“What does success look like in the first 90 days for this role?”",
+        explanation:
+          "This question is practical and role-focused, and it helps you understand expectations while showing you think about impact early.",
       },
     ],
   },
@@ -1488,6 +1752,8 @@ export const mockTestsData = [
         question: "Which practice commonly improves perceived performance?",
         options: ["Large images everywhere", "Skeleton/loading states", "Blocking scripts", "No caching"],
         correctAnswer: "Skeleton/loading states",
+        explanation:
+          "Skeletons provide immediate visual feedback and reduce perceived waiting time while data/resources load.",
       },
       {
         id: 2,
@@ -1499,66 +1765,88 @@ export const mockTestsData = [
           "To disable React",
         ],
         correctAnswer: "To load only needed code for a route/feature",
+        explanation:
+          "Code splitting loads smaller bundles on-demand so users download only what they need for the current route/feature.",
       },
       {
         id: 3,
         question: "What can help reduce unnecessary re-renders?",
         options: ["Random keys", "memo/useMemo/useCallback where appropriate", "Inline everything", "More useEffect"],
         correctAnswer: "memo/useMemo/useCallback where appropriate",
+        explanation:
+          "Memoization and stable references can prevent re-renders when inputs haven’t changed, especially for expensive components.",
       },
       {
         id: 4,
         question: "What metric roughly captures how quickly the main content becomes visible?",
         options: ["FCP/LCP", "HTTP 500", "CSSOM", "DNS TTL"],
         correctAnswer: "FCP/LCP",
+        explanation:
+          "FCP (First Contentful Paint) and LCP (Largest Contentful Paint) reflect how quickly meaningful content appears for users.",
       },
       {
         id: 5,
         question: "Which action commonly reduces JavaScript bundle size?",
         options: ["Add more dependencies", "Tree-shaking and removing unused code", "Inline all images as base64", "Disable caching"],
         correctAnswer: "Tree-shaking and removing unused code",
+        explanation:
+          "Tree-shaking removes unused exports and dead code, reducing bundle size and improving load/performance.",
       },
       {
         id: 6,
         question: "Why is lazy loading images useful?",
         options: ["It increases bandwidth usage", "It defers loading offscreen images to reduce initial load", "It breaks SEO always", "It disables caching"],
         correctAnswer: "It defers loading offscreen images to reduce initial load",
+        explanation:
+          "Lazy loading delays fetching offscreen images until needed, improving initial load time and saving bandwidth.",
       },
       {
         id: 7,
         question: "What does memoization (useMemo/useCallback) primarily help with?",
         options: ["Changing HTML semantics", "Avoiding repeated work or stable references between renders", "Making CSS faster automatically", "Replacing state"],
         correctAnswer: "Avoiding repeated work or stable references between renders",
+        explanation:
+          "Memoization reduces repeated computations and helps keep stable references, which can reduce re-renders in memoized children.",
       },
       {
         id: 8,
         question: "Which practice improves runtime performance in lists?",
         options: ["Render thousands of items always", "Virtualization/windowing", "Disable keys", "Use random keys"],
         correctAnswer: "Virtualization/windowing",
+        explanation:
+          "Virtualization renders only visible items (plus a buffer), reducing DOM nodes and improving scroll and render performance.",
       },
       {
         id: 9,
         question: "What is a common cause of slow pages on mobile?",
         options: ["Too many optimized images", "Large JS bundles and main-thread work", "Using semantic HTML", "Using caching"],
         correctAnswer: "Large JS bundles and main-thread work",
+        explanation:
+          "Mobile devices have slower CPUs; large JS bundles and heavy main-thread work can block rendering and interactions.",
       },
       {
         id: 10,
         question: "What does 'debouncing' help with?",
         options: ["Making API calls more frequent", "Reducing how often a function runs during rapid events (e.g., typing)", "Increasing re-renders", "Disabling user input"],
         correctAnswer: "Reducing how often a function runs during rapid events (e.g., typing)",
+        explanation:
+          "Debouncing delays execution until input settles, preventing a function from running too frequently during rapid events.",
       },
       {
         id: 11,
         question: "Which technique improves perceived navigation performance between routes?",
         options: ["No prefetching", "Prefetching route bundles/resources when likely needed", "Blocking rendering until everything loads", "Disable browser cache"],
         correctAnswer: "Prefetching route bundles/resources when likely needed",
+        explanation:
+          "Prefetching loads likely-needed resources ahead of time, making route transitions feel faster.",
       },
       {
         id: 12,
         question: "What is the goal of minimizing 'layout shift'?",
         options: ["To make animations slower", "To keep elements from jumping around during load, improving UX", "To increase CSS specificity", "To disable responsiveness"],
         correctAnswer: "To keep elements from jumping around during load, improving UX",
+        explanation:
+          "Reducing layout shift prevents content from moving unexpectedly during load, improving readability and interaction stability (CLS).",
       },
     ],
   },
@@ -1580,12 +1868,16 @@ export const mockTestsData = [
           "Adding more CSS classes",
         ],
         correctAnswer: "Mutating state directly instead of creating a new object/array",
+        explanation:
+          "React detects changes via new references; mutating existing state in place can prevent React from seeing updates and re-rendering.",
       },
       {
         id: 2,
         question: "A quick way to verify a fetch request succeeded is to check:",
         options: ["CSS variables", "Network tab in DevTools", "HTML title tag", "The favicon"],
         correctAnswer: "Network tab in DevTools",
+        explanation:
+          "The Network tab shows request status codes, timing, payloads, and responses—ideal for confirming whether the call succeeded.",
       },
       {
         id: 3,
@@ -1597,12 +1889,16 @@ export const mockTestsData = [
           "Disable all linting permanently",
         ],
         correctAnswer: "Read the stack trace and reproduce the issue reliably",
+        explanation:
+          "A reproducible error plus the stack trace narrows down the failing code path and helps you verify fixes quickly.",
       },
       {
         id: 4,
         question: "If a component renders too often, you might inspect:",
         options: ["prop/state changes and memoization boundaries", "HTML doctype", "robots.txt", "package-lock.json"],
         correctAnswer: "prop/state changes and memoization boundaries",
+        explanation:
+          "Frequent renders are usually caused by changing props/state or unstable references; memoization boundaries can reduce unnecessary renders.",
       },
       {
         id: 5,
@@ -1614,6 +1910,8 @@ export const mockTestsData = [
           "Using too many badges",
         ],
         correctAnswer: "Accessing nested properties without checking existence (optional chaining helps)",
+        explanation:
+          "If an object is undefined/null, accessing nested fields throws; guard checks or optional chaining (obj?.a?.b) prevents this.",
       },
       {
         id: 6,
@@ -1625,24 +1923,32 @@ export const mockTestsData = [
           "Using alt attributes",
         ],
         correctAnswer: "Missing dependencies in useEffect or creating new function deps each render",
+        explanation:
+          "Effects can re-run endlessly if dependencies change every render or if needed dependencies are missing, causing unstable behavior.",
       },
       {
         id: 7,
         question: "When debugging CSS layout issues, a helpful tool is:",
         options: ["Console only", "DevTools Elements/Computed panel", "robots.txt", "package.json"],
         correctAnswer: "DevTools Elements/Computed panel",
+        explanation:
+          "The Elements/Computed panels reveal box model, applied rules, and computed layout values to diagnose positioning/sizing issues.",
       },
       {
         id: 8,
         question: "If a request returns 404, it usually means:",
         options: ["Server error", "Resource not found at that URL", "Unauthorized", "Too many requests"],
         correctAnswer: "Resource not found at that URL",
+        explanation:
+          "404 Not Found means the endpoint/path doesn’t exist (or the resource ID is missing), so check the URL and routing.",
       },
       {
         id: 9,
         question: "A good way to quickly validate input/props assumptions is to:",
         options: ["Guess", "Add temporary logging or use debugger breakpoints", "Remove types", "Rewrite the component"],
         correctAnswer: "Add temporary logging or use debugger breakpoints",
+        explanation:
+          "Logging/breakpoints let you inspect real values at runtime, confirming whether your assumptions about data/props are correct.",
       },
       {
         id: 10,
@@ -1654,6 +1960,8 @@ export const mockTestsData = [
           "You used fetch instead of axios",
         ],
         correctAnswer: "Keys are stable and unique (not array index for changing lists)",
+        explanation:
+          "Unstable keys (like array index) can cause React to reuse DOM nodes incorrectly when items reorder, leading to UI glitches.",
       },
       {
         id: 11,
@@ -1665,6 +1973,8 @@ export const mockTestsData = [
           "Using semantic HTML",
         ],
         correctAnswer: "Setting state in an effect that depends on that same state without guards",
+        explanation:
+          "If an effect updates a state that’s also a dependency, it can trigger itself repeatedly unless you add guards or adjust dependencies.",
       },
       {
         id: 12,
@@ -1676,6 +1986,8 @@ export const mockTestsData = [
           "Remove all components",
         ],
         correctAnswer: "Measure with profiling tools (React DevTools Profiler / browser Performance tab)",
+        explanation:
+          "Profiling identifies the actual bottleneck (slow renders, long tasks), so you optimize based on evidence rather than guessing.",
       },
     ],
   },

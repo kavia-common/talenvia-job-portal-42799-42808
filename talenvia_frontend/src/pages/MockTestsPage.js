@@ -541,6 +541,9 @@ export function MockTestsPage() {
                           <div>
                             Correct answer: <strong>{safeText(r.correctAnswer)}</strong>
                           </div>
+                          <div style={{ marginTop: 8 }}>
+                            Explanation: <strong>{safeText(r.explanation)}</strong>
+                          </div>
                         </div>
                       </div>
 
