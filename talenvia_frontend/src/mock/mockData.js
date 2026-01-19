@@ -102,66 +102,88 @@ export const mockTestData = {
       question: "What does React use to efficiently update the UI?",
       options: ["DOM", "Virtual DOM", "Shadow DOM", "Real DOM"],
       correctAnswer: "Virtual DOM",
+      explanation:
+        "React uses a Virtual DOM to compute UI changes efficiently and update the real DOM in minimal operations.",
     },
     {
       id: 2,
       question: "Which hook is used to manage state in a functional component?",
       options: ["useData", "useState", "useEffect", "useContext"],
       correctAnswer: "useState",
+      explanation:
+        "useState lets functional components store and update local component state (e.g., counters, form values, toggles).",
     },
     {
       id: 3,
       question: "Which CSS property controls layout alignment in Flexbox?",
       options: ["float", "position", "justify-content", "display"],
       correctAnswer: "justify-content",
+      explanation:
+        "justify-content controls how flex items are aligned along the main axis (e.g., start, center, space-between).",
     },
     {
       id: 4,
       question: "Which HTML element is best suited for wrapping the main content of a page?",
       options: ["<header>", "<main>", "<footer>", "<aside>"],
       correctAnswer: "<main>",
+      explanation:
+        "<main> represents the dominant content of the <body>. It improves semantics and accessibility for assistive technologies.",
     },
     {
       id: 5,
       question: "In CSS, which unit is relative to the root element’s font size?",
       options: ["em", "rem", "px", "%"],
       correctAnswer: "rem",
+      explanation:
+        "rem is based on the root (html) font size, which makes it predictable for consistent scaling across components.",
     },
     {
       id: 6,
       question: "Which React prop is used to render conditional content within JSX?",
       options: ["if", "switch", "JavaScript expressions (e.g., &&, ?:) ", "renderIf"],
       correctAnswer: "JavaScript expressions (e.g., &&, ?:) ",
+      explanation:
+        "JSX doesn’t support 'if' as a prop. Conditional rendering is done using JavaScript expressions like && or the ternary operator.",
     },
     {
       id: 7,
       question: "Which event is commonly used to update state from an input field?",
       options: ["onHover", "onChange", "onSubmit", "onLoad"],
       correctAnswer: "onChange",
+      explanation:
+        "onChange fires when the input value changes; it’s the standard way to update React state for controlled inputs.",
     },
     {
       id: 8,
       question: "What does `Array.prototype.map()` return?",
       options: ["A single value", "A new array", "A boolean", "Nothing (undefined)"],
       correctAnswer: "A new array",
+      explanation:
+        "map() transforms each element and returns a new array of the same length, leaving the original array unchanged.",
     },
     {
       id: 9,
       question: "Which CSS property sets the space between grid rows and columns?",
       options: ["spacing", "grid-gap/gap", "grid-space", "margin"],
       correctAnswer: "grid-gap/gap",
+      explanation:
+        "gap (formerly grid-gap) sets spacing between rows and columns in CSS Grid (and can also work with Flexbox).",
     },
     {
       id: 10,
       question: "Which React hook is used to run side effects (e.g., data fetching)?",
       options: ["useMemo", "useEffect", "useReducer", "useState"],
       correctAnswer: "useEffect",
+      explanation:
+        "useEffect is designed for side effects like data fetching, subscriptions, and manual DOM interactions after rendering.",
     },
     {
       id: 11,
       question: "Which HTTP status code commonly indicates a successful resource creation?",
       options: ["200", "201", "204", "404"],
       correctAnswer: "201",
+      explanation:
+        "201 Created indicates a request succeeded and resulted in a new resource being created (often returned by POST).",
     },
     {
       id: 12,
@@ -173,6 +195,8 @@ export const mockTestData = {
         "Cancels all network requests",
       ],
       correctAnswer: "Prevents the browser’s default action (e.g., form submit reload)",
+      explanation:
+        "preventDefault() stops the browser’s default behavior (like navigating or reloading on form submit), allowing custom handling.",
     },
   ],
 };

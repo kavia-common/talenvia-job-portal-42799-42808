@@ -51,12 +51,24 @@ function getTestMeta(test) {
   };
 }
 
+function safeText(value, fallback = "—") {
+  const s = String(value ?? "").trim();
+  return s ? s : fallback;
+}
+
+function isAnswered(v) {
+  return v !== undefined && v !== null && String(v).trim() !== "";
+}
+
 // PUBLIC_INTERFACE
 export function MockTestsPage() {
-  /** Mock tests: browse available tests, filter, select one, take it, and view results. */
-  const [step, setStep] = useState("list"); // list | taking | results
+  /** Mock tests: browse available tests, filter, select one, take it, and view results (summary + per-question review). */
+  const [step, setStep] = useState("list"); // list | taking | resultsSummary | resultsReview
   const [activeTestId, setActiveTestId] = useState("");
   const [answersByQuestionId, setAnswersByQuestionId] = useState({});
+
+  // In review mode, allow jumping to a specific question.
+  const [reviewQuestionId, setReviewQuestionId] = useState(null);
 
   // Filters (only apply on "list" step)
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -124,15 +136,58 @@ export function MockTestsPage() {
 
     for (const q of qs) {
       const selected = answersByQuestionId[q.id];
-      if (selected && selected === q.correctAnswer) correct += 1;
+      if (isAnswered(selected) && selected === q.correctAnswer) correct += 1;
     }
 
     return { correct, total: qs.length, percent: safePercent(correct, qs.length) };
   }, [activeTest, answersByQuestionId]);
 
+  const resultsByQuestion = useMemo(() => {
+    const qs = activeTest?.questions || [];
+    return qs.map((q, idx) => {
+      const userAnswer = answersByQuestionId[q.id];
+      const correctAnswer = q.correctAnswer;
+      const isCorrect = isAnswered(userAnswer) && userAnswer === correctAnswer;
+
+      return {
+        index: idx,
+        id: q.id,
+        question: q.question,
+        options: Array.isArray(q.options) ? q.options : [],
+        userAnswer: isAnswered(userAnswer) ? userAnswer : null,
+        correctAnswer,
+        isCorrect,
+        explanation: safeText(q.explanation, "No explanation provided yet."),
+      };
+    });
+  }, [activeTest, answersByQuestionId]);
+
+  const summaryBreakdown = useMemo(() => {
+    const attempted = resultsByQuestion.filter((r) => isAnswered(r.userAnswer)).length;
+    const correct = resultsByQuestion.filter((r) => r.isCorrect).length;
+    const wrong = attempted - correct;
+    const skipped = resultsByQuestion.length - attempted;
+    return { attempted, correct, wrong, skipped };
+  }, [resultsByQuestion]);
+
+  const defaultReviewQuestionId = useMemo(() => {
+    if (!resultsByQuestion.length) return null;
+    // Prefer the first wrong question; otherwise first question.
+    const firstWrong = resultsByQuestion.find((r) => isAnswered(r.userAnswer) && !r.isCorrect);
+    return (firstWrong || resultsByQuestion[0]).id;
+  }, [resultsByQuestion]);
+
+  const activeReviewQuestionId = reviewQuestionId ?? defaultReviewQuestionId;
+
+  const activeReviewItem = useMemo(() => {
+    if (!activeReviewQuestionId) return null;
+    return resultsByQuestion.find((r) => r.id === activeReviewQuestionId) || null;
+  }, [resultsByQuestion, activeReviewQuestionId]);
+
   function startTest(testId) {
     setActiveTestId(testId);
     setAnswersByQuestionId({});
+    setReviewQuestionId(null);
     setStep("taking");
   }
 
@@ -140,10 +195,18 @@ export function MockTestsPage() {
     setStep("list");
     setActiveTestId("");
     setAnswersByQuestionId({});
+    setReviewQuestionId(null);
   }
 
   function submit() {
-    setStep("results");
+    // Freeze answers by moving to results steps; user can still "Retake" to reset.
+    setReviewQuestionId(null);
+    setStep("resultsSummary");
+  }
+
+  function goToReview(questionId) {
+    setReviewQuestionId(questionId ?? null);
+    setStep("resultsReview");
   }
 
   function toggleTag(tag) {
@@ -167,7 +230,7 @@ export function MockTestsPage() {
       <div className="page-header">
         <h1 className="page-title">Mock Tests</h1>
         <p className="page-subtitle">
-          Practice with guided assessments and review results. This view uses local mock datasets.
+          Practice with guided assessments and review results with per-question feedback.
           <span className="muted"> (TODO: load/persist tests from backend.)</span>
         </p>
       </div>
@@ -179,7 +242,9 @@ export function MockTestsPage() {
             subtitle="Filter by category/tags, then select a test to begin"
             actions={
               <>
-                <Badge variant="primary">{filteredTests.length}/{tests.length} tests</Badge>
+                <Badge variant="primary">
+                  {filteredTests.length}/{tests.length} tests
+                </Badge>
                 {activeFiltersCount ? <Badge>{activeFiltersCount} filter(s)</Badge> : null}
               </>
             }
@@ -289,7 +354,7 @@ export function MockTestsPage() {
                         <Badge variant="primary">Mock</Badge>
                       </div>
 
-                      {(meta.categories.length || meta.tags.length) ? (
+                      {meta.categories.length || meta.tags.length ? (
                         <>
                           <div className="divider" />
                           <div className="row" style={{ gap: 8 }}>
@@ -334,9 +399,7 @@ export function MockTestsPage() {
         <Card
           title={activeTest ? activeTest.title : "Taking test"}
           subtitle={
-            activeTest
-              ? `${activeTest.questions.length} questions • ${formatDuration(activeTest.duration)}`
-              : "Answer the questions below"
+            activeTest ? `${activeTest.questions.length} questions • ${formatDuration(activeTest.duration)}` : "Answer the questions below"
           }
           actions={
             <>
@@ -399,10 +462,10 @@ export function MockTestsPage() {
         </Card>
       ) : null}
 
-      {step === "results" ? (
+      {step === "resultsSummary" ? (
         <Card
-          title="Results"
-          subtitle="Review your performance"
+          title="Results summary"
+          subtitle="Overview of your performance + quick access to per-question feedback"
           actions={
             <>
               <Badge variant={score.total > 0 && score.correct === score.total ? "success" : "primary"}>
@@ -416,8 +479,7 @@ export function MockTestsPage() {
         >
           <div className="stack">
             <div style={{ lineHeight: 1.6 }}>
-              You scored <strong>{score.correct}</strong> out of <strong>{score.total}</strong> (
-              <strong>{score.percent}%</strong>).
+              You scored <strong>{score.correct}</strong> out of <strong>{score.total}</strong> (<strong>{score.percent}%</strong>).
             </div>
 
             {activeTest ? (
@@ -428,19 +490,269 @@ export function MockTestsPage() {
 
             <div className="divider" />
 
+            <div
+              className="card"
+              style={{
+                padding: 14,
+                background: "rgba(255, 255, 255, 0.72)",
+              }}
+              aria-label="Score breakdown"
+            >
+              <div className="row" style={{ justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <Badge variant="primary">Attempted: {summaryBreakdown.attempted}</Badge>
+                <Badge variant="success">Correct: {summaryBreakdown.correct}</Badge>
+                <Badge variant="error">Wrong: {summaryBreakdown.wrong}</Badge>
+                <Badge>Skipped: {summaryBreakdown.skipped}</Badge>
+              </div>
+              <div className="muted" style={{ marginTop: 10, fontSize: 13, lineHeight: 1.5 }}>
+                Review each question to see your selected answer, the correct answer, and a short explanation.
+              </div>
+            </div>
+
+            <div className="divider" />
+
+            <div className="stack" aria-label="Question results list">
+              {resultsByQuestion.map((r) => {
+                const statusVariant = r.isCorrect ? "success" : isAnswered(r.userAnswer) ? "error" : "primary";
+                const statusLabel = r.isCorrect ? "Correct" : isAnswered(r.userAnswer) ? "Wrong" : "Skipped";
+
+                return (
+                  <div
+                    key={r.id}
+                    className="card"
+                    style={{
+                      padding: 14,
+                      border: r.isCorrect
+                        ? "1px solid rgba(16,185,129,0.25)"
+                        : isAnswered(r.userAnswer)
+                          ? "1px solid rgba(239,68,68,0.25)"
+                          : "1px solid rgba(139,92,246,0.18)",
+                    }}
+                  >
+                    <div className="row" style={{ justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontWeight: 900, lineHeight: 1.25 }}>
+                          Q{r.index + 1}. {r.question}
+                        </div>
+                        <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.5 }}>
+                          <div>
+                            Your answer: <strong>{safeText(r.userAnswer, "Skipped")}</strong>
+                          </div>
+                          <div>
+                            Correct answer: <strong>{safeText(r.correctAnswer)}</strong>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
+                        <Badge variant={statusVariant}>{statusLabel}</Badge>
+                        <Button variant="ghost" onClick={() => goToReview(r.id)}>
+                          Review
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="divider" />
+
             <div className="row" style={{ justifyContent: "space-between" }}>
               <Button variant="ghost" onClick={() => startTest(activeTestId)}>
                 Retake
               </Button>
-              <Button variant="primary" onClick={exitToList}>
-                Choose another test
+              <Button variant="primary" onClick={() => goToReview(defaultReviewQuestionId)}>
+                Review all
               </Button>
             </div>
-
-            <div className="muted" style={{ marginTop: 10 }}>
-              TODO: Show explanations, topic breakdown, and recommended learning resources.
-            </div>
           </div>
+        </Card>
+      ) : null}
+
+      {step === "resultsReview" ? (
+        <Card
+          title="Results review"
+          subtitle="Per-question feedback: your answer, correct answer, and explanation"
+          actions={
+            <>
+              <Badge variant="primary">
+                {score.correct}/{score.total}
+              </Badge>
+              <Button variant="ghost" onClick={() => setStep("resultsSummary")}>
+                Back to summary
+              </Button>
+            </>
+          }
+        >
+          {!activeTest ? (
+            <div className="alert" role="alert">
+              <strong>Test not found</strong>
+              <div className="muted" style={{ marginTop: 6 }}>Please return to the test list and try again.</div>
+              <div style={{ marginTop: 12 }}>
+                <Button variant="primary" onClick={exitToList}>
+                  Back to tests
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="stack">
+              <div
+                className="card"
+                style={{
+                  padding: 14,
+                  background: "rgba(255, 255, 255, 0.72)",
+                }}
+                aria-label="Jump to question"
+              >
+                <label className="label" htmlFor="review-question-select">
+                  Jump to question
+                </label>
+                <select
+                  id="review-question-select"
+                  className="input"
+                  value={activeReviewQuestionId ?? ""}
+                  onChange={(e) => setReviewQuestionId(Number(e.target.value))}
+                >
+                  {resultsByQuestion.map((r) => {
+                    const prefix = r.isCorrect ? "✓" : isAnswered(r.userAnswer) ? "✕" : "–";
+                    return (
+                      <option key={r.id} value={r.id}>
+                        {prefix} Q{r.index + 1}
+                      </option>
+                    );
+                  })}
+                </select>
+
+                <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.5 }}>
+                  ✓ Correct • ✕ Wrong • – Skipped
+                </div>
+              </div>
+
+              {activeReviewItem ? (
+                <div className="card" style={{ padding: 14 }}>
+                  <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontWeight: 900, lineHeight: 1.25 }}>
+                        Q{activeReviewItem.index + 1}. {activeReviewItem.question}
+                      </div>
+                      <div className="muted" style={{ marginTop: 8, fontSize: 13 }}>
+                        Your answer: <strong>{safeText(activeReviewItem.userAnswer, "Skipped")}</strong>
+                      </div>
+                      <div className="muted" style={{ marginTop: 6, fontSize: 13 }}>
+                        Correct answer: <strong>{safeText(activeReviewItem.correctAnswer)}</strong>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Badge
+                        variant={
+                          activeReviewItem.isCorrect ? "success" : isAnswered(activeReviewItem.userAnswer) ? "error" : "primary"
+                        }
+                      >
+                        {activeReviewItem.isCorrect ? "Correct" : isAnswered(activeReviewItem.userAnswer) ? "Wrong" : "Skipped"}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="divider" />
+
+                  <div className="stack" aria-label="Options with correct highlight">
+                    {activeReviewItem.options.map((opt) => {
+                      const isCorrectOpt = opt === activeReviewItem.correctAnswer;
+                      const isUserOpt = isAnswered(activeReviewItem.userAnswer) && opt === activeReviewItem.userAnswer;
+
+                      const border = isCorrectOpt
+                        ? "1px solid rgba(16,185,129,0.35)"
+                        : isUserOpt
+                          ? "1px solid rgba(239,68,68,0.35)"
+                          : "1px solid rgba(0,0,0,0.08)";
+
+                      const bg = isCorrectOpt
+                        ? "rgba(16,185,129,0.10)"
+                        : isUserOpt
+                          ? "rgba(239,68,68,0.08)"
+                          : "rgba(255,255,255,0.6)";
+
+                      return (
+                        <div
+                          key={opt}
+                          className="card"
+                          style={{
+                            padding: 12,
+                            border,
+                            background: bg,
+                          }}
+                        >
+                          <div className="row" style={{ justifyContent: "space-between", gap: 10 }}>
+                            <div style={{ fontWeight: 700 }}>{opt}</div>
+                            <div className="row" style={{ gap: 8 }}>
+                              {isCorrectOpt ? <Badge variant="success">Correct</Badge> : null}
+                              {isUserOpt && !isCorrectOpt ? <Badge variant="error">Your pick</Badge> : null}
+                              {isUserOpt && isCorrectOpt ? <Badge variant="success">Your pick</Badge> : null}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="divider" />
+
+                  <div aria-label="Explanation">
+                    <div style={{ fontWeight: 900, marginBottom: 6 }}>Explanation</div>
+                    <div className="muted" style={{ lineHeight: 1.6 }}>
+                      {activeReviewItem.explanation}
+                    </div>
+                  </div>
+
+                  <div className="divider" />
+
+                  <div className="row" style={{ justifyContent: "space-between" }}>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        const curIdx = resultsByQuestion.findIndex((r) => r.id === activeReviewItem.id);
+                        const prev = curIdx > 0 ? resultsByQuestion[curIdx - 1] : null;
+                        if (prev) setReviewQuestionId(prev.id);
+                      }}
+                      disabled={resultsByQuestion.findIndex((r) => r.id === activeReviewItem.id) <= 0}
+                    >
+                      Previous
+                    </Button>
+
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        const curIdx = resultsByQuestion.findIndex((r) => r.id === activeReviewItem.id);
+                        const next = curIdx >= 0 && curIdx < resultsByQuestion.length - 1 ? resultsByQuestion[curIdx + 1] : null;
+                        if (next) setReviewQuestionId(next.id);
+                      }}
+                      disabled={resultsByQuestion.findIndex((r) => r.id === activeReviewItem.id) >= resultsByQuestion.length - 1}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="alert" role="status" aria-live="polite">
+                  <strong>No question selected</strong>
+                  <div className="muted" style={{ marginTop: 6 }}>
+                    Pick a question from the dropdown to view feedback.
+                  </div>
+                </div>
+              )}
+
+              <div className="row" style={{ justifyContent: "space-between" }}>
+                <Button variant="ghost" onClick={() => startTest(activeTestId)}>
+                  Retake
+                </Button>
+                <Button variant="primary" onClick={exitToList}>
+                  Choose another test
+                </Button>
+              </div>
+            </div>
+          )}
         </Card>
       ) : null}
     </>
