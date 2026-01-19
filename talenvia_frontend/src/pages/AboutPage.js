@@ -50,6 +50,28 @@ export function AboutPage() {
             Talenvia is built to be reliable, respectful of your journey, and focused on long-term career success—one informed step at a time.
           </div>
         </Card>
+
+        <Card title="Mission & Values" subtitle="A practical approach to career growth">
+          <div style={{ lineHeight: 1.7 }}>
+            Our mission is to help early-career talent turn skills into opportunities—by making profiles clearer, job discovery more relevant, and
+            next steps easier to act on.
+          </div>
+
+          <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.8, marginTop: 12 }}>
+            <li>
+              <strong>Clarity:</strong> Simple, structured ways to present your skills and goals.
+            </li>
+            <li>
+              <strong>Relevance:</strong> Matches and recommendations designed to reduce noise and improve fit.
+            </li>
+            <li>
+              <strong>Progress:</strong> Guidance that helps you improve continuously—not just apply repeatedly.
+            </li>
+            <li>
+              <strong>Trust:</strong> A respectful, user-first experience that supports long-term career success.
+            </li>
+          </ul>
+        </Card>
       </div>
     </>
   );
