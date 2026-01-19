@@ -513,48 +513,62 @@ export function MockTestsPage() {
 
             <div className="stack" aria-label="Question results list">
               {resultsByQuestion.map((r) => {
-                const statusVariant = r.isCorrect ? "success" : isAnswered(r.userAnswer) ? "error" : "primary";
-                const statusLabel = r.isCorrect ? "Correct" : isAnswered(r.userAnswer) ? "Wrong" : "Skipped";
+                const isSkipped = !isAnswered(r.userAnswer);
+                const statusVariant = r.isCorrect ? "success" : isSkipped ? "neutral" : "error";
+                const statusLabel = r.isCorrect ? "Correct" : isSkipped ? "Skipped" : "Incorrect";
+
+                const answerBlockClass = r.isCorrect
+                  ? "answer-block answer-block-correct"
+                  : isSkipped
+                    ? "answer-block answer-block-skipped"
+                    : "answer-block answer-block-incorrect";
 
                 return (
-                  <div
-                    key={r.id}
-                    className="card"
-                    style={{
-                      padding: 14,
-                      border: r.isCorrect
-                        ? "1px solid rgba(16,185,129,0.25)"
-                        : isAnswered(r.userAnswer)
-                          ? "1px solid rgba(239,68,68,0.25)"
-                          : "1px solid rgba(139,92,246,0.18)",
-                    }}
-                  >
-                    <div className="row" style={{ justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontWeight: 900, lineHeight: 1.25 }}>
+                  <details key={r.id} className="details">
+                    <summary aria-label={`Toggle details for question ${r.index + 1}`}>
+                      <span style={{ minWidth: 0 }}>
+                        <span style={{ display: "block", lineHeight: 1.25 }}>
                           Q{r.index + 1}. {r.question}
-                        </div>
-                        <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.5 }}>
+                        </span>
+                        <span className="muted" style={{ display: "block", marginTop: 6, fontSize: 13, fontWeight: 700 }}>
+                          Click to expand details
+                        </span>
+                      </span>
+
+                      <span className="row" style={{ gap: 10, alignItems: "center", justifyContent: "flex-end" }}>
+                        <Badge variant={statusVariant}>{statusLabel}</Badge>
+                        <span className="details-chevron" aria-hidden="true">
+                          ▾
+                        </span>
+                      </span>
+                    </summary>
+
+                    <div className="details-body">
+                      <div className={answerBlockClass} aria-label="Answer summary">
+                        <div className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
                           <div>
                             Your answer: <strong>{safeText(r.userAnswer, "Skipped")}</strong>
                           </div>
                           <div>
                             Correct answer: <strong>{safeText(r.correctAnswer)}</strong>
                           </div>
-                          <div style={{ marginTop: 8 }}>
-                            Explanation: <strong>{safeText(r.explanation)}</strong>
-                          </div>
                         </div>
                       </div>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
-                        <Badge variant={statusVariant}>{statusLabel}</Badge>
+                      <div className="answer-block" aria-label="Explanation">
+                        <div style={{ fontWeight: 900, marginBottom: 6 }}>Explanation</div>
+                        <div className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
+                          {safeText(r.explanation)}
+                        </div>
+                      </div>
+
+                      <div className="row" style={{ justifyContent: "flex-end" }}>
                         <Button variant="ghost" onClick={() => goToReview(r.id)}>
-                          Review
+                          Review full
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </details>
                 );
               })}
             </div>
@@ -650,10 +664,14 @@ export function MockTestsPage() {
                     <div>
                       <Badge
                         variant={
-                          activeReviewItem.isCorrect ? "success" : isAnswered(activeReviewItem.userAnswer) ? "error" : "primary"
+                          activeReviewItem.isCorrect
+                            ? "success"
+                            : isAnswered(activeReviewItem.userAnswer)
+                              ? "error"
+                              : "neutral"
                         }
                       >
-                        {activeReviewItem.isCorrect ? "Correct" : isAnswered(activeReviewItem.userAnswer) ? "Wrong" : "Skipped"}
+                        {activeReviewItem.isCorrect ? "Correct" : isAnswered(activeReviewItem.userAnswer) ? "Incorrect" : "Skipped"}
                       </Badge>
                     </div>
                   </div>
