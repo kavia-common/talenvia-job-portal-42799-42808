@@ -1,12 +1,6 @@
 import React, { useMemo, useState } from "react";
 import PageShell from "../components/PageShell";
-
-const MOCK_JOBS = [
-  { id: "job-1", title: "Frontend Engineer (React)", company: "Aster Labs", location: "Remote", level: "Mid" },
-  { id: "job-2", title: "Backend Engineer (Node.js)", company: "Silverline Systems", location: "New York, NY", level: "Senior" },
-  { id: "job-3", title: "Product Designer", company: "Purple Finch Studio", location: "San Francisco, CA", level: "Mid" },
-  { id: "job-4", title: "Data Analyst", company: "Lumen Metrics", location: "Remote", level: "Junior" }
-];
+import { mockJobs } from "../data/mockJobs";
 
 // PUBLIC_INTERFACE
 export default function HomePage() {
@@ -16,7 +10,7 @@ export default function HomePage() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return MOCK_JOBS.filter((j) => {
+    return mockJobs.filter((j) => {
       const matchesQuery =
         !q || `${j.title} ${j.company} ${j.location}`.toLowerCase().includes(q);
       const matchesLevel = level === "All" ? true : j.level === level;
@@ -81,6 +75,11 @@ export default function HomePage() {
                       <span className="tv-pill">{job.company}</span>
                       <span className="tv-pill subtle">{job.location}</span>
                       <span className="tv-pill outline">{job.level}</span>
+                      {job.skill ? <span className="tv-pill subtle">{job.skill}</span> : null}
+                      {typeof job.totalQuestions === "number" ? (
+                        <span className="tv-pill outline">{job.totalQuestions} Qs</span>
+                      ) : null}
+                      {job.duration ? <span className="tv-pill outline">{job.duration}</span> : null}
                     </div>
                   </div>
                   <div className="tv-job-actions">
