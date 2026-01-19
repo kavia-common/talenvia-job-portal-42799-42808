@@ -319,6 +319,89 @@ code {
   gap: var(--space-3);
 }
 
+/* How It Works page polish (alignment + consistent flow) */
+.howitworks-header {
+  /* page-header already provides background, border, radius, padding */
+}
+
+.howitworks-header-top {
+  display: flex;
+  align-items: center; /* vertically align title/subtitle block with action */
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.howitworks-header-copy {
+  min-width: 0;
+}
+
+.howitworks-header-action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+  .howitworks-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .howitworks-header-action {
+    justify-content: flex-start;
+  }
+}
+
+.howitworks-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4); /* remove uneven gaps; consistent vertical rhythm */
+}
+
+.howitworks-step {
+  display: grid;
+  grid-template-columns: 44px 1fr; /* stable left margin and consistent icon column */
+  align-items: center; /* ensure number icon is vertically centered with content */
+  column-gap: var(--space-4);
+}
+
+.howitworks-step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 14px;
+  color: rgba(55, 65, 81, 0.95);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  background: rgba(139, 92, 246, 0.10);
+  box-shadow: var(--shadow-sm);
+}
+
+.howitworks-step-body {
+  min-width: 0;
+}
+
+.howitworks-step-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.1px;
+}
+
+.howitworks-step-subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.howitworks-step-description {
+  margin-top: 10px;
+}
+
 .divider {
   height: 1px;
   background: rgba(107, 114, 128, 0.18);
