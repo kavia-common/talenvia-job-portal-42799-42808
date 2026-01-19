@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
+import { MultiSelectDropdown } from "../components/ui/MultiSelectDropdown";
 import { mockTestData, mockTestsData } from "../mock/mockData";
 
 function formatDuration(seconds) {
@@ -228,49 +229,21 @@ export function MockTestsPage() {
                 <div className="divider" />
 
                 <div className="stack" aria-label="Tag filters">
-                  <div className="label" style={{ marginBottom: 0 }}>
-                    Tags (multi-select)
-                  </div>
-
-                  {allTags.length === 0 ? (
-                    <div className="muted" style={{ fontSize: 13 }}>
-                      No tags available.
-                    </div>
-                  ) : (
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-                        gap: 10,
-                      }}
-                    >
-                      {allTags.map((tag) => {
-                        const checked = selectedTags.has(tag);
-                        return (
-                          <label
-                            key={tag}
-                            className="sidebar-link"
-                            style={{
-                              cursor: "pointer",
-                              userSelect: "none",
-                              background: checked ? "rgba(139, 92, 246, 0.10)" : undefined,
-                              borderColor: checked ? "rgba(139, 92, 246, 0.28)" : undefined,
-                            }}
-                          >
-                            <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                              <input type="checkbox" checked={checked} onChange={() => toggleTag(tag)} />
-                              <span style={{ fontWeight: 700 }}>{tag}</span>
-                            </span>
-                            <small className="muted">{checked ? "Selected" : "Any"}</small>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  <div className="muted" style={{ fontSize: 12 }}>
-                    Tip: selecting multiple tags uses <strong>AND</strong> logic (tests must match all selected tags).
-                  </div>
+                  <MultiSelectDropdown
+                    id="tests-tags"
+                    label="Tags (multi-select)"
+                    options={allTags}
+                    selectedValues={selectedTags}
+                    onToggleValue={toggleTag}
+                    onClear={() => setSelectedTags(new Set())}
+                    placeholder="Select tags…"
+                    hint={
+                      <>
+                        Tip: selecting multiple tags uses <strong>AND</strong> logic (tests must match all selected tags).
+                      </>
+                    }
+                    disabled={allTags.length === 0}
+                  />
                 </div>
               </div>
             </div>
