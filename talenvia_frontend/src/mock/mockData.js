@@ -36,6 +36,64 @@ export const mockJobs = [
   },
 ];
 
+/**
+ * User-provided mock dataset: jobs currently hiring in India.
+ * Kept separate from `mockJobs` to avoid changing existing listing content/filters.
+ */
+// PUBLIC_INTERFACE
+export const currentlyHiringIndiaJobs = [
+  {
+    id: "IN-101",
+    title: "Frontend Developer (React)",
+    company: "Infosys",
+    location: "Bangalore, India",
+    experience: "0–2 yrs",
+    salary: "₹5–8 LPA",
+    hiring: true,
+    applyLink: "https://careers.infosys.com",
+  },
+  {
+    id: "IN-102",
+    title: "Backend Developer (Node.js)",
+    company: "TCS",
+    location: "Hyderabad, India",
+    experience: "1–3 yrs",
+    salary: "₹6–10 LPA",
+    hiring: true,
+    applyLink: "https://www.tcs.com/careers",
+  },
+  {
+    id: "IN-103",
+    title: "Full Stack Developer",
+    company: "Wipro",
+    location: "Pune, India",
+    experience: "0–2 yrs",
+    salary: "₹6–9 LPA",
+    hiring: true,
+    applyLink: "https://careers.wipro.com",
+  },
+  {
+    id: "IN-104",
+    title: "Data Analyst",
+    company: "Accenture",
+    location: "Chennai, India",
+    experience: "0–2 yrs",
+    salary: "₹7–11 LPA",
+    hiring: true,
+    applyLink: "https://www.accenture.com/in-en/careers",
+  },
+  {
+    id: "IN-105",
+    title: "Software Engineer (Fresher)",
+    company: "Zoho",
+    location: "Chennai, India",
+    experience: "Freshers",
+    salary: "₹5–7 LPA",
+    hiring: true,
+    applyLink: "https://careers.zohocorp.com",
+  },
+];
+
 export const mockUserProfile = {
   fullName: "Alex Morgan",
   headline: "Junior Software Engineer",

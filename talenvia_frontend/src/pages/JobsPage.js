@@ -3,7 +3,7 @@ import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
-import { mockJobs } from "../mock/mockData";
+import { currentlyHiringIndiaJobs, mockJobs } from "../mock/mockData";
 
 // PUBLIC_INTERFACE
 export function JobsPage() {
@@ -148,6 +148,48 @@ export function JobsPage() {
             )}
           </Card>
         </div>
+      </div>
+
+      <div className="stack" style={{ marginTop: 18 }} aria-label="Currently hiring in India">
+        <Card
+          title={`Currently Hiring in India (${currentlyHiringIndiaJobs.length})`}
+          subtitle="Curated mock dataset (India)"
+        >
+          <table className="table" aria-label="Currently hiring in India table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Experience</th>
+                <th>Salary</th>
+                <th style={{ width: 160 }}>Apply</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentlyHiringIndiaJobs.map((job) => (
+                <tr key={job.id}>
+                  <td style={{ fontWeight: 800 }}>{job.title}</td>
+                  <td>{job.company}</td>
+                  <td className="muted">{job.location}</td>
+                  <td className="muted">{job.experience}</td>
+                  <td className="muted">{job.salary}</td>
+                  <td>
+                    <a
+                      href={job.applyLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ textDecoration: "none" }}
+                      aria-label={`Apply to ${job.title} at ${job.company} (opens in a new tab)`}
+                    >
+                      <Button variant="primary">Apply</Button>
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
       </div>
     </>
   );
