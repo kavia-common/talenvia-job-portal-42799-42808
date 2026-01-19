@@ -20,6 +20,24 @@ function computeScore(test, answersByQuestionId) {
   return { correct, total: questions.length };
 }
 
+function formatMetaLine(test) {
+  const parts = [];
+  if (test?.skill) parts.push(test.skill);
+  if (test?.duration) parts.push(test.duration);
+  const count =
+    typeof test?.totalQuestions === "number"
+      ? test.totalQuestions
+      : safeArray(test?.questions).length;
+  if (typeof count === "number") parts.push(`${count} questions`);
+  return parts.join(" • ");
+}
+
+function coerceTestId(value) {
+  // Our dataset uses numeric ids today; keep coercion simple and safe.
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
 // PUBLIC_INTERFACE
 export default function MockTestsPage() {
   /** Renders the mock tests page with quiz selection, question rendering, and basic scoring. */
@@ -119,7 +137,7 @@ export default function MockTestsPage() {
               id="test-select"
               className="tv-select"
               value={selectedTestId ?? ""}
-              onChange={(e) => setSelectedTestId(Number(e.target.value))}
+              onChange={(e) => setSelectedTestId(coerceTestId(e.target.value))}
             >
               {tests.map((t) => (
                 <option key={t.id} value={t.id}>
@@ -129,7 +147,33 @@ export default function MockTestsPage() {
             </select>
 
             <div className="tv-muted tv-mt">
-              Tip: choose a test and click <strong>Start selected test</strong>.
+              Tip: pick a test from the list below (or dropdown) and click <strong>Start selected test</strong>.
+            </div>
+
+            <div className="tv-mt tv-list" style={{ maxHeight: 360, overflow: "auto", paddingRight: 6 }}>
+              {tests.map((t) => {
+                const isActive = t.id === selectedTestId;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className="tv-btn tv-btn-secondary"
+                    onClick={() => setSelectedTestId(t.id)}
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      borderColor: isActive ? "rgba(139, 92, 246, 0.40)" : undefined,
+                      background: isActive ? "rgba(139, 92, 246, 0.10)" : undefined
+                    }}
+                    aria-pressed={isActive}
+                  >
+                    <div style={{ fontWeight: 900, letterSpacing: "-0.02em" }}>{t.title}</div>
+                    <div className="tv-muted" style={{ marginTop: 4 }}>
+                      {formatMetaLine(t)}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -357,8 +401,7 @@ export default function MockTestsPage() {
               <div className="tv-list">
                 {questions.map((q, idx) => {
                   const selectedIdx = answersByQuestionId?.[q.id];
-                  const selectedText =
-                    typeof selectedIdx === "number" ? safeArray(q.options)[selectedIdx] : null;
+                  const selectedText = typeof selectedIdx === "number" ? safeArray(q.options)[selectedIdx] : null;
                   const correctText =
                     typeof q.correctAnswer === "number" ? safeArray(q.options)[q.correctAnswer] : null;
 
@@ -368,7 +411,10 @@ export default function MockTestsPage() {
                     <div key={q.id} className="tv-card" style={{ boxShadow: "none" }}>
                       <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                         <span className="tv-pill outline">Q{idx + 1}</span>
-                        <span className="tv-pill" style={{ background: isCorrect ? "rgba(16,185,129,0.14)" : undefined }}>
+                        <span
+                          className="tv-pill"
+                          style={{ background: isCorrect ? "rgba(16,185,129,0.14)" : undefined }}
+                        >
                           {isCorrect ? "Correct" : "Incorrect"}
                         </span>
                       </div>
