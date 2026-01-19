@@ -2,35 +2,27 @@ import React, { useMemo, useState } from "react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
-import { mockTests } from "../mock/mockData";
-
-const sampleQuestions = [
-  {
-    id: "q1",
-    prompt: "In React, what hook is commonly used for state in function components?",
-    choices: ["useState", "useMemo", "useRef", "useLayoutEffect"],
-    answerIndex: 0,
-  },
-  {
-    id: "q2",
-    prompt: "Which attribute should be used for a label to associate it with an input?",
-    choices: ["for", "htmlFor", "labelFor", "name"],
-    answerIndex: 1,
-  },
-];
+import { mockTestData, mockTests } from "../mock/mockData";
 
 // PUBLIC_INTERFACE
 export function MockTestsPage() {
-  /** Mock tests: list tests, take a short sample test, view results. */
+  /** Mock tests: list tests, take a mock test using the integrated question bank, view results. */
   const [activeTestId, setActiveTestId] = useState("");
   const [step, setStep] = useState("list"); // list | taking | results
-  const [answers, setAnswers] = useState({});
+  const [answersByQuestionId, setAnswersByQuestionId] = useState({});
 
   const active = useMemo(() => mockTests.find((t) => t.id === activeTestId) || null, [activeTestId]);
 
+  // In this UI demo, we currently support one integrated test dataset.
+  // If the selected test matches it, we render its real questions; otherwise we show an empty bank (until more are added).
+  const activeQuestionBank = useMemo(() => {
+    if (activeTestId && activeTestId === mockTestData.id) return mockTestData;
+    return null;
+  }, [activeTestId]);
+
   function startTest(testId) {
     setActiveTestId(testId);
-    setAnswers({});
+    setAnswersByQuestionId({});
     setStep("taking");
   }
 
@@ -39,20 +31,24 @@ export function MockTestsPage() {
   }
 
   const score = useMemo(() => {
+    const qs = activeQuestionBank?.questions || [];
     let correct = 0;
-    for (const q of sampleQuestions) {
-      if (answers[q.id] === q.answerIndex) correct += 1;
+
+    for (const q of qs) {
+      const selected = answersByQuestionId[q.id];
+      if (selected && selected === q.correctAnswer) correct += 1;
     }
-    return { correct, total: sampleQuestions.length };
-  }, [answers]);
+
+    return { correct, total: qs.length };
+  }, [answersByQuestionId, activeQuestionBank]);
 
   return (
     <>
       <div className="page-header">
         <h1 className="page-title">Mock Tests</h1>
         <p className="page-subtitle">
-          Practice with guided assessments and review results. In this demo, the “Take test” flow uses a short built-in sample.
-          <span className="muted"> (TODO: load real test content from backend.)</span>
+          Practice with guided assessments and review results. This view now uses the integrated mock dataset for test content.
+          <span className="muted"> (TODO: load/persist tests from backend.)</span>
         </p>
       </div>
 
@@ -93,44 +89,59 @@ export function MockTestsPage() {
           subtitle="Answer the questions below"
           actions={
             <>
-              <Badge variant="primary">Demo</Badge>
+              <Badge variant="primary">Mock</Badge>
               <Button variant="ghost" onClick={() => setStep("list")}>
                 Exit
               </Button>
             </>
           }
         >
-          <div className="stack">
-            {sampleQuestions.map((q, idx) => (
-              <div key={q.id} className="card" style={{ padding: 14 }}>
-                <div style={{ fontWeight: 900 }}>
-                  Q{idx + 1}. {q.prompt}
+          {activeQuestionBank ? (
+            <div className="stack">
+              {activeQuestionBank.questions.map((q, idx) => (
+                <div key={q.id} className="card" style={{ padding: 14 }}>
+                  <div style={{ fontWeight: 900 }}>
+                    Q{idx + 1}. {q.question}
+                  </div>
+                  <div className="divider" />
+                  <div className="stack" role="radiogroup" aria-label={`Question ${idx + 1}`}>
+                    {q.options.map((opt) => (
+                      <label key={opt} className="sidebar-link" style={{ cursor: "pointer" }}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <input
+                            type="radio"
+                            name={`q_${q.id}`}
+                            checked={answersByQuestionId[q.id] === opt}
+                            onChange={() => setAnswersByQuestionId((a) => ({ ...a, [q.id]: opt }))}
+                          />
+                          {opt}
+                        </span>
+                        <small className="muted">Option</small>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <div className="divider" />
-                <div className="stack" role="radiogroup" aria-label={`Question ${idx + 1}`}>
-                  {q.choices.map((c, cidx) => (
-                    <label key={c} className="sidebar-link" style={{ cursor: "pointer" }}>
-                      <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <input
-                          type="radio"
-                          name={q.id}
-                          checked={answers[q.id] === cidx}
-                          onChange={() => setAnswers((a) => ({ ...a, [q.id]: cidx }))}
-                        />
-                        {c}
-                      </span>
-                      <small className="muted">Option</small>
-                    </label>
-                  ))}
-                </div>
+              ))}
+
+              <div className="row" style={{ justifyContent: "flex-end" }}>
+                <Button variant="primary" onClick={finish} disabled={activeQuestionBank.questions.length === 0}>
+                  Submit
+                </Button>
               </div>
-            ))}
-            <div className="row" style={{ justifyContent: "flex-end" }}>
-              <Button variant="primary" onClick={finish}>
-                Submit
-              </Button>
             </div>
-          </div>
+          ) : (
+            <div className="alert" role="alert">
+              <strong>Test content not available</strong>
+              <div className="muted" style={{ marginTop: 6 }}>
+                This selected test does not have an integrated question bank yet. Please choose “{mockTestData.title}”.
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <Button variant="primary" onClick={() => startTest(mockTestData.id)}>
+                  Take {mockTestData.title}
+                </Button>
+              </div>
+            </div>
+          )}
         </Card>
       ) : null}
 
@@ -140,7 +151,7 @@ export function MockTestsPage() {
           subtitle="Review your performance"
           actions={
             <>
-              <Badge variant={score.correct === score.total ? "success" : "primary"}>
+              <Badge variant={score.total > 0 && score.correct === score.total ? "success" : "primary"}>
                 {score.correct}/{score.total}
               </Badge>
               <Button variant="ghost" onClick={() => setStep("list")}>
@@ -153,9 +164,7 @@ export function MockTestsPage() {
             <div style={{ lineHeight: 1.6 }}>
               You scored <strong>{score.correct}</strong> out of <strong>{score.total}</strong>.
             </div>
-            <div className="muted">
-              TODO: Show explanations, topic breakdown, and recommended learning resources.
-            </div>
+            <div className="muted">TODO: Show explanations, topic breakdown, and recommended learning resources.</div>
           </div>
         </Card>
       ) : null}

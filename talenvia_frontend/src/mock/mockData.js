@@ -44,7 +44,18 @@ export const mockUserProfile = {
   bio: "I’m exploring frontend roles and practicing interviews with mock tests and challenges. I enjoy building clean, accessible interfaces.",
 };
 
+/**
+ * Existing test list metadata used by the "Available tests" table UI.
+ * (The actual question bank content is in `mockTestData` below.)
+ */
 export const mockTests = [
+  {
+    id: "frontend-basic-1",
+    title: "Frontend Developer – Basic Mock Test",
+    minutes: 20,
+    questions: 3,
+    difficulty: "Beginner",
+  },
   {
     id: "test_1",
     title: "React Fundamentals",
@@ -67,6 +78,36 @@ export const mockTests = [
     difficulty: "Intermediate",
   },
 ];
+
+/**
+ * User-provided mock test dataset (authoritative).
+ * Duration is stored in seconds (e.g., 20 minutes * 60).
+ */
+export const mockTestData = {
+  id: "frontend-basic-1",
+  title: "Frontend Developer – Basic Mock Test",
+  duration: 20 * 60, // 20 minutes in seconds
+  questions: [
+    {
+      id: 1,
+      question: "What does React use to efficiently update the UI?",
+      options: ["DOM", "Virtual DOM", "Shadow DOM", "Real DOM"],
+      correctAnswer: "Virtual DOM",
+    },
+    {
+      id: 2,
+      question: "Which hook is used to manage state in a functional component?",
+      options: ["useData", "useState", "useEffect", "useContext"],
+      correctAnswer: "useState",
+    },
+    {
+      id: 3,
+      question: "Which CSS property controls layout alignment in Flexbox?",
+      options: ["float", "position", "justify-content", "display"],
+      correctAnswer: "justify-content",
+    },
+  ],
+};
 
 export const mockChallenges = [
   {
