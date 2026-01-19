@@ -9,27 +9,45 @@ export function AboutPage() {
       <div className="page-header">
         <h1 className="page-title">About Us</h1>
         <p className="page-subtitle">
-          Talenvia is an elegant job discovery and skill-building experience designed to keep you moving forward—calmly and consistently.
+          Talenvia is a modern career platform built to help you present your skills clearly, discover the right roles, and grow with confidence.
         </p>
       </div>
 
       <div className="stack">
-        <Card title="Our mission" subtitle="Make job searching feel structured and achievable">
+        <Card title="About Talenvia" subtitle="Career growth, made practical">
           <div style={{ lineHeight: 1.7 }}>
-            We help candidates discover opportunities, strengthen interview skills, and build momentum through habit-forming challenges.
-            The platform blends job listings, mock tests, and progress tracking in one focused experience.
+            Talenvia is a career-focused platform that helps you build a stronger profile, showcase your skills, and find opportunities that fit.
+            It brings together job discovery, skill visibility, and guided decision-making in one place—so your next step feels clear and
+            achievable.
+            <br />
+            <br />
+            Built for students, freshers, and early-career professionals, Talenvia addresses common early-stage challenges: unclear skill
+            positioning, scattered applications, and limited direction on what to improve next. With personalized preferences and AI-supported
+            guidance, you can move from “searching” to “progressing” with a plan.
           </div>
         </Card>
 
-        <Card title="What you can do here" subtitle="A single place for your weekly career workflow">
+        <Card title="What you can do on Talenvia" subtitle="Everything you need to stay job-ready and job-relevant">
           <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.8 }}>
-            <li>Search and filter job listings</li>
-            <li>Maintain a profile and highlight your skills</li>
-            <li>Practice with mock tests and review results</li>
-            <li>Use challenges to stay consistent and track progress</li>
+            <li>
+              <strong>Profile &amp; skill management:</strong> Organize your skills and strengths so recruiters and roles align with what you can do.
+            </li>
+            <li>
+              <strong>Resume upload and updates:</strong> Keep your resume current and ready for the right opportunities.
+            </li>
+            <li>
+              <strong>Job discovery &amp; matching:</strong> Explore roles with smarter relevance so you spend time on the right applications.
+            </li>
+            <li>
+              <strong>Career preferences &amp; personalization:</strong> Set what you want and get results that reflect your goals.
+            </li>
+            <li>
+              <strong>AI-driven guidance:</strong> Get recommendations and direction on roles, skills, and next steps—like a practical mentor in your workflow.
+            </li>
           </ul>
-          <div className="muted" style={{ marginTop: 12 }}>
-            TODO: Add team details, contact page, and privacy policy.
+
+          <div className="muted" style={{ marginTop: 12, lineHeight: 1.7 }}>
+            Talenvia is built to be reliable, respectful of your journey, and focused on long-term career success—one informed step at a time.
           </div>
         </Card>
       </div>
