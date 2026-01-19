@@ -47,6 +47,9 @@ export const mockUserProfile = {
 /**
  * Existing test list metadata used by the "Available tests" table UI.
  * (The actual question bank content is in `mockTestData` below.)
+ *
+ * NOTE: This is preserved for backward compatibility with any UI that expects:
+ * { id, title, minutes, questions, difficulty }.
  */
 export const mockTests = [
   {
@@ -82,6 +85,9 @@ export const mockTests = [
 /**
  * User-provided mock test dataset (authoritative).
  * Duration is stored in seconds (e.g., 20 minutes * 60).
+ *
+ * IMPORTANT: Preserved for backward compatibility. Some pages may import and expect
+ * a single "mockTestData" object.
  */
 export const mockTestData = {
   id: "frontend-basic-1",
@@ -108,6 +114,147 @@ export const mockTestData = {
     },
   ],
 };
+
+/**
+ * Extended mock tests question banks.
+ * Each test:
+ * - id: string
+ * - title: string
+ * - duration: number (seconds)
+ * - questions: [{ id, question, options, correctAnswer }]
+ */
+// PUBLIC_INTERFACE
+export const mockTestsData = [
+  // Keep the original single-bank dataset as the first entry for consistency.
+  mockTestData,
+
+  {
+    id: "react-intermediate-1",
+    title: "React – Intermediate Concepts",
+    duration: 25 * 60,
+    questions: [
+      {
+        id: 1,
+        question: "Which hook is primarily used to optimize expensive calculations in React components?",
+        options: ["useEffect", "useMemo", "useReducer", "useRef"],
+        correctAnswer: "useMemo",
+      },
+      {
+        id: 2,
+        question: "What is the main purpose of React keys when rendering lists?",
+        options: [
+          "To style list items",
+          "To identify elements and help React reconcile updates efficiently",
+          "To enable event bubbling",
+          "To prevent memory leaks",
+        ],
+        correctAnswer: "To identify elements and help React reconcile updates efficiently",
+      },
+      {
+        id: 3,
+        question: "Which pattern helps avoid prop drilling for deeply nested components?",
+        options: ["Inline styles", "Context API", "setState", "Fragments"],
+        correctAnswer: "Context API",
+      },
+      {
+        id: 4,
+        question: "A common reason a component re-renders unnecessarily is:",
+        options: [
+          "Using semantic HTML",
+          "Passing newly created object/function props each render without memoization",
+          "Using CSS variables",
+          "Using strict mode",
+        ],
+        correctAnswer: "Passing newly created object/function props each render without memoization",
+      },
+      {
+        id: 5,
+        question: "When using useEffect, which dependency array value runs the effect only on mount/unmount?",
+        options: ["No dependency array", "[]", "[props]", "[state]"],
+        correctAnswer: "[]",
+      },
+    ],
+  },
+
+  {
+    id: "css-fundamentals-1",
+    title: "CSS Fundamentals – Layout & Specificity",
+    duration: 15 * 60,
+    questions: [
+      {
+        id: 1,
+        question: "Which CSS property controls the spacing between flex items along the main axis?",
+        options: ["align-items", "justify-content", "gap", "flex-wrap"],
+        correctAnswer: "gap",
+      },
+      {
+        id: 2,
+        question: "Which selector typically has higher specificity?",
+        options: [".btn.primary", "#submit", "button", "*"],
+        correctAnswer: "#submit",
+      },
+      {
+        id: 3,
+        question: "In normal document flow, which property removes an element from the flow?",
+        options: ["margin", "display: inline", "position: absolute", "padding"],
+        correctAnswer: "position: absolute",
+      },
+      {
+        id: 4,
+        question: "What does box-sizing: border-box do?",
+        options: [
+          "It excludes borders from the box model",
+          "It includes padding and border in the element’s total width/height",
+          "It forces the element to be a block",
+          "It disables margin collapsing",
+        ],
+        correctAnswer: "It includes padding and border in the element’s total width/height",
+      },
+    ],
+  },
+
+  {
+    id: "js-basics-1",
+    title: "JavaScript Basics – Types & Functions",
+    duration: 12 * 60,
+    questions: [
+      {
+        id: 1,
+        question: "What is the result of typeof null in JavaScript?",
+        options: ['"null"', '"object"', '"undefined"', '"number"'],
+        correctAnswer: '"object"',
+      },
+      {
+        id: 2,
+        question: "Which of these creates a new array containing items that pass a test function?",
+        options: ["map()", "forEach()", "filter()", "reduce()"],
+        correctAnswer: "filter()",
+      },
+      {
+        id: 3,
+        question: "What is a closure?",
+        options: [
+          "A loop that never ends",
+          "A function bundled with references to its surrounding state (lexical environment)",
+          "A way to declare constants",
+          "A method to sort arrays",
+        ],
+        correctAnswer: "A function bundled with references to its surrounding state (lexical environment)",
+      },
+      {
+        id: 4,
+        question: "Which statement about === is correct?",
+        options: [
+          "It performs type coercion before comparison",
+          "It compares both value and type without coercion",
+          "It compares only object references",
+          "It is identical to =",
+        ],
+        correctAnswer: "It compares both value and type without coercion",
+      },
+    ],
+  },
+];
 
 export const mockChallenges = [
   {
